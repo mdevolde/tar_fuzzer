@@ -2,8 +2,10 @@ CC = gcc
 LD = gcc
 CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0
 LDFLAGS = -ggdb
-OBJ = src/main.o src/tar_header.o src/tar_archive.o
-TEST_OBJ = tests/test_main.o tests/test_tar_header.o src/tar_header.o tests/test_tar_archive.o src/tar_archive.o
+MAIN = src/main.o
+OBJ_W_MAIN = src/tar_header.o src/tar_archive.o
+OBJ = $(MAIN) $(OBJ_W_MAIN)
+TEST_OBJ = tests/test_main.o tests/test_tar_header.o tests/test_tar_archive.o tests/test_tar_archive_longfile.o $(OBJ_W_MAIN)
 EXEC = fuzzer
 TEST_EXEC = test_main
 
