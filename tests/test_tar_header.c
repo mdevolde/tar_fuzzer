@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include "test_tar_header.h"
 
-/** Function to print the content of a TAR header
- * @param header The header to print
- * @return void
- */
+
 void print_tar_header(const tar_header *header) {
     printf("=== TAR HEADER TEST ===\n");
     printf("Name of file : %s\n", header->name);
@@ -22,9 +19,7 @@ void print_tar_header(const tar_header *header) {
     printf("========================\n");
 }
 
-/** Main function
- * @return 0
- */
+
 int test_tar_header() {
     tar_header header;
     

@@ -3,10 +3,7 @@
 #include "tar_archive.h"
 #include "test_tar_archive_longfile.h"
 
-/** Function to print the content of a TAR archive
- * @param archive The archive to print
- * @return void
- */
+
 void print_tar_archive_longfile(const tar_archive *archive) {
     for (size_t i = 0; i < archive->element_count; i++) {
         printf("Element %zu (%s):\n", i, archive->elements[i].is_header ? "Header" : "Data");
@@ -20,7 +17,7 @@ void print_tar_archive_longfile(const tar_archive *archive) {
     }
 }
 
-/* Function to test the TAR archive creation */
+
 void test_tar_archive_longfile() {
     // 1. Init the TAR archive
     tar_archive archive;

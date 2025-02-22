@@ -5,6 +5,7 @@
 #include <time.h>
 #include "tar_header.h"
 
+
 uint32_t calculate_tar_checksum(const tar_header *header) {
     uint32_t sum = 0;
     tar_header header_clone = *header;

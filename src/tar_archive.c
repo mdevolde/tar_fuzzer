@@ -4,7 +4,7 @@
 
 #define INITIAL_CAPACITY 10  // Initial capacity of the archive
 
-/* Function to expand the capacity of the archive */
+
 static void expand_tar_archive(tar_archive *archive) {
     if (archive->element_count >= archive->capacity) {
         archive->capacity = archive->capacity ? archive->capacity * 2 : INITIAL_CAPACITY;
@@ -16,7 +16,7 @@ static void expand_tar_archive(tar_archive *archive) {
     }
 }
 
-/* Function to initialize a TAR archive */
+
 void init_tar_archive(tar_archive *archive) {
     archive->elements = calloc(INITIAL_CAPACITY, sizeof(tar_element));
     if (!archive->elements) {
@@ -27,7 +27,7 @@ void init_tar_archive(tar_archive *archive) {
     archive->capacity = INITIAL_CAPACITY;
 }
 
-/* Function to add a TAR header to the archive */
+
 void add_tar_header(tar_archive *archive, const tar_header *header) {
     expand_tar_archive(archive);
     tar_element *element = &archive->elements[archive->element_count++];
@@ -35,7 +35,7 @@ void add_tar_header(tar_archive *archive, const tar_header *header) {
     element->is_header = 1;
 }
 
-/* Function to add a block of data to the archive */
+
 void add_tar_data_block(tar_archive *archive, const uint8_t *data, size_t size) {
     expand_tar_archive(archive);
     tar_element *element = &archive->elements[archive->element_count++];
@@ -47,7 +47,7 @@ void add_tar_data_block(tar_archive *archive, const uint8_t *data, size_t size) 
     }
 }
 
-/* Function to finalize the archive by adding two empty blocks */
+
 void finalize_tar_archive(tar_archive *archive) {
     uint8_t zero_block[TAR_BLOCK_SIZE] = {0};
     for (int i = 0; i < 2; i++) {
@@ -55,7 +55,7 @@ void finalize_tar_archive(tar_archive *archive) {
     }
 }
 
-/* Function to free the memory used by a TAR archive */
+
 void free_tar_archive(tar_archive *archive) {
     if (archive->elements) {
         free(archive->elements);
