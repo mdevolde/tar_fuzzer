@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "../include/tar_header.h"
+#include "test_tar_header.h"
 
 /** Function to print the content of a TAR header
  * @param header The header to print
  * @return void
  */
-static void print_tar_header(const struct tar_header *header) {
+void print_tar_header(const tar_header *header) {
     printf("=== TAR HEADER TEST ===\n");
     printf("Name of file : %s\n", header->name);
     printf("Mode : %s\n", header->mode);
@@ -25,8 +25,8 @@ static void print_tar_header(const struct tar_header *header) {
 /** Main function
  * @return 0
  */
-static int test_tar_header() {
-    struct tar_header header;
+int test_tar_header() {
+    tar_header header;
     
     // Generate a header for a file named "testfile.txt" with a size of 1024 bytes
     init_tar_header(&header, "testfile.txt", 1024);

@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <string.h>
-#include "../include/tar_header.h"
-#include "../include/tar_archive.h"
+#include "test_tar_archive.h"
+#include "tar_archive.h"
 
 /** Function to print the content of a TAR archive
  * @param archive The archive to print
  * @return void
  */
-static void print_tar_archive(const struct tar_archive *archive) {
+void print_tar_archive(const tar_archive *archive) {
     for (size_t i = 0; i < archive->element_count; i++) {
         printf("Element %zu (%s):\n", i, archive->elements[i].is_header ? "Header" : "Data");
         for (size_t j = 0; j < TAR_BLOCK_SIZE; j++) {
@@ -21,14 +21,14 @@ static void print_tar_archive(const struct tar_archive *archive) {
 }
 
 /* Function to test the TAR archive creation */
-static void test_tar_archive() {
+void test_tar_archive() {
     // 1. Init the TAR archive
-    struct tar_archive archive;
+    tar_archive archive;
     init_tar_archive(&archive);
 
     // 2. Create a TAR header for a file named "testfile.txt" with a size of 12 bytes
-    struct tar_header header;
-    memset(&header, 0, sizeof(struct tar_header));  // Init all fields to 0
+    tar_header header;
+    memset(&header, 0, sizeof(tar_header));  // Init all fields to 0
 
     // Fill the header fields
     snprintf(header.name, TAR_NAME_SIZE, "testfile.txt");

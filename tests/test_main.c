@@ -1,5 +1,5 @@
-#include "test_tar_header.c"
-#include "test_tar_archive.c"
+#include "test_tar_header.h"
+#include "test_tar_archive.h"
 
 int main() {
     test_tar_header();

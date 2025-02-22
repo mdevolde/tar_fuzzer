@@ -1,11 +1,26 @@
-#include "../include/tar_header.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <stdlib.h>
+#include "tar_header.h"
 
-void init_tar_header(struct tar_header *header, const char *filename, uint32_t file_size) {
-    memset(header, 0, sizeof(struct tar_header));
+void calculate_tar_checksum(tar_header *header) {
+    unsigned int sum = 0;
+    memset(header->chksum, ' ', sizeof(header->chksum));
+
+    // Sum of all bytes in the header
+    unsigned char *p = (unsigned char *)header;
+    for (size_t i = 0; i < TAR_BLOCK_SIZE; i++) {
+        sum += p[i];
+    }
+
+    // Replace the checksum field with the calculated sum
+    snprintf(header->chksum, sizeof(header->chksum), "%06o ", sum);
+}
+
+
+void init_tar_header(tar_header *header, const char *filename, uint32_t file_size) {
+    memset(header, 0, sizeof(tar_header));
 
     snprintf(header->name, TAR_NAME_SIZE, "%s", filename);
     snprintf(header->mode, sizeof(header->mode), "%07o", 0644);
@@ -21,18 +36,4 @@ void init_tar_header(struct tar_header *header, const char *filename, uint32_t f
     snprintf(header->gname, sizeof(header->gname), "group");
 
     calculate_tar_checksum(header);
-}
-
-void calculate_tar_checksum(struct tar_header *header) {
-    unsigned int sum = 0;
-    memset(header->chksum, ' ', sizeof(header->chksum));
-
-    // Sum of all bytes in the header
-    unsigned char *p = (unsigned char *)header;
-    for (size_t i = 0; i < TAR_BLOCK_SIZE; i++) {
-        sum += p[i];
-    }
-
-    // Replace the checksum field with the calculated sum
-    snprintf(header->chksum, sizeof(header->chksum), "%06o ", sum);
 }

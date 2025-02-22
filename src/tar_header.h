@@ -8,7 +8,7 @@
 #define TAR_PREFIX_SIZE 155
 
 /* Structure of header TAR (format POSIX 1003.1-1990) */
-struct tar_header {
+typedef struct  {
     char name[TAR_NAME_SIZE];      /* Name of the file (0-99) */
     char mode[8];                  /* Permissions of the file (100-107) */
     char uid[8];                   /* UID owner (108-115) */
@@ -26,12 +26,12 @@ struct tar_header {
     char devminor[8];                /* Number minor du device (337-344) */
     char prefix[TAR_PREFIX_SIZE];    /* Prefix of the file name (345-500) */
     char padding[12];                /* Padding (501-512) */
-};
+} tar_header;
 
 /* Function to initialize the header of a TAR file */
-void init_tar_header(struct tar_header *header, const char *filename, uint32_t file_size);
+void init_tar_header(tar_header *header, const char *filename, uint32_t file_size);
 
 /* Function to calculate the checksum of a TAR header */
-void calculate_tar_checksum(struct tar_header *header);
+void calculate_tar_checksum(tar_header *header);
 
 #endif /* TAR_HEADER_H */

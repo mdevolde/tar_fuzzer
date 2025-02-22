@@ -1,21 +1,23 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c17
+LD = gcc
+CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0
+LDFLAGS = -ggdb
 OBJ = src/main.o src/tar_header.o src/tar_archive.o
 TEST_OBJ = tests/test_main.o tests/test_tar_header.o src/tar_header.o tests/test_tar_archive.o src/tar_archive.o
-DEPS = include/tar_header.h include/tar_archive.h
 EXEC = fuzzer
 TEST_EXEC = test_main
 
+.PHONY: all clean test
+
+
 all: $(EXEC)
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(EXEC): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 $(TEST_EXEC): $(TEST_OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(LD) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 test: $(TEST_EXEC)
 	./$(TEST_EXEC)
@@ -23,4 +25,3 @@ test: $(TEST_EXEC)
 clean:
 	rm -f src/*.o tests/*.o $(EXEC) $(TEST_EXEC) test_main test_header.bin
 
-.PHONY: all clean test
