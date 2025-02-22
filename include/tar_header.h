@@ -25,6 +25,7 @@ struct tar_header {
     char devmajor[8];                /* Number major of the device (329-336) */
     char devminor[8];                /* Number minor du device (337-344) */
     char prefix[TAR_PREFIX_SIZE];    /* Prefix of the file name (345-500) */
+    char padding[12];                /* Padding (501-512) */
 };
 
 /* Function to initialize the header of a TAR file */
