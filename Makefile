@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c17
-OBJ = src/main.o src/tar_header.o
-TEST_OBJ = tests/test_tar_header.o src/tar_header.o
-DEPS = include/tar_header.h
+OBJ = src/main.o src/tar_header.o src/tar_archive.o
+TEST_OBJ = tests/test_main.o tests/test_tar_header.o src/tar_header.o tests/test_tar_archive.o src/tar_archive.o
+DEPS = include/tar_header.h include/tar_archive.h
 EXEC = fuzzer
-TEST_EXEC = test_tar_header
+TEST_EXEC = test_main
 
 all: $(EXEC)
 
@@ -21,6 +21,6 @@ test: $(TEST_EXEC)
 	./$(TEST_EXEC)
 
 clean:
-	rm -f src/*.o tests/*.o $(EXEC) $(TEST_EXEC)
+	rm -f src/*.o tests/*.o $(EXEC) $(TEST_EXEC) test_main test_header.bin
 
 .PHONY: all clean test

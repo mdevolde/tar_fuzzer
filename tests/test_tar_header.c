@@ -5,7 +5,7 @@
  * @param header The header to print
  * @return void
  */
-void print_tar_header(const struct tar_header *header) {
+static void print_tar_header(const struct tar_header *header) {
     printf("=== TAR HEADER TEST ===\n");
     printf("Name of file : %s\n", header->name);
     printf("Mode : %s\n", header->mode);
@@ -25,7 +25,7 @@ void print_tar_header(const struct tar_header *header) {
 /** Main function
  * @return 0
  */
-int main() {
+static int test_tar_header() {
     struct tar_header header;
     
     // Generate a header for a file named "testfile.txt" with a size of 1024 bytes

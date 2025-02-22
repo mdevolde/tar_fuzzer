@@ -59,3 +59,4 @@ fuzzer
 fuzzer.*
 test_tar_header
 test_header.*
+test_main
