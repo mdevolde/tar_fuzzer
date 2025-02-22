@@ -53,3 +53,7 @@ dkms.conf
 
 # Local files
 ressources/
+
+# Executables
+fuzzer
+fuzzer.*
