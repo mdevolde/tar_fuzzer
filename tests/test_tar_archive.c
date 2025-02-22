@@ -30,18 +30,18 @@ void test_tar_archive() {
     tar_header header = {0}; 
 
     // Fill the header fields
-    snprintf(header.name, TAR_NAME_SIZE, "testfile.txt");
-    snprintf(header.mode, 8, "%07o", 0644);  // Permissions in octal
-    snprintf(header.uid, 8, "%07o", 1000);   // UID
-    snprintf(header.gid, 8, "%07o", 1000);   // GID
-    snprintf(header.size, 12, "%011o", 12);  // Size of the file in octal (12 bytes)
-    snprintf(header.mtime, 12, "%011o", 1672531200); // Date (epoch time) of the file
-    header.typeflag = '0';          // Regular file
-    snprintf(header.magic, 6, "ustar");  // Format POSIX
-    memcpy(header.version, "00", 2);
-    snprintf(header.uname, 32, "user");
-    snprintf(header.gname, 32, "group");
-    snprintf(header.chksum, sizeof(header.chksum), "%07o", calculate_tar_checksum(&header));
+    edit_tar_header_name(&header, "testfile.txt");
+    edit_tar_header_mode(&header, 0644);        // Permissions in octal
+    edit_tar_header_uid(&header, 1000);         // UID
+    edit_tar_header_gid(&header, 1000);         // GID
+    edit_tar_header_size(&header, 12);          // Size of the file in octal (12 bytes)
+    edit_tar_header_mtime(&header, 1672531200); // Date (epoch time) of the file
+    edit_tar_header_typeflag(&header, '0');     // Regular file
+    edit_tar_header_magic(&header, "ustar");    // Format POSIX
+    edit_tar_header_version(&header, "00");
+    edit_tar_header_uname(&header, "user");
+    edit_tar_header_gname(&header, "group");
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     // 3. Add the header to the archive
     add_tar_header(&archive, &header);
