@@ -55,9 +55,7 @@ dkms.conf
 ressources/
 .gdb_history
 fuzzer
-fuzzer.*
-test_tar_header
+fuzzer_test
 test_header.*
-test_main
 *.tar
 *.txt
