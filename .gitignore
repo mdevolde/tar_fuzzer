@@ -53,10 +53,11 @@ dkms.conf
 
 # Local files
 ressources/
-
-# Executables
+.gdb_history
 fuzzer
 fuzzer.*
 test_tar_header
 test_header.*
 test_main
+*.tar
+*.txt

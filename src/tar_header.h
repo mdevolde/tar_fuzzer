@@ -32,6 +32,6 @@ typedef struct  {
 void init_tar_header(tar_header *header, const char *filename, uint32_t file_size);
 
 /* Function to calculate the checksum of a TAR header */
-void calculate_tar_checksum(tar_header *header);
+uint32_t calculate_tar_checksum(const tar_header *header);
 
 #endif /* TAR_HEADER_H */
