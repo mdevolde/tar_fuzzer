@@ -54,8 +54,8 @@ dkms.conf
 # Local files
 ressources/
 .gdb_history
+.vscode/
 fuzzer
 fuzzer_test
-test_header.*
 *.tar
 *.txt

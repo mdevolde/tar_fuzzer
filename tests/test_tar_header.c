@@ -2,7 +2,7 @@
 #include "test_tar_header.h"
 
 
-void print_tar_header(const tar_header *header) {
+__attribute__((unused)) static void print_tar_header(const tar_header *header) {
     printf("=== TAR HEADER TEST ===\n");
     printf("Name of file : %s\n", header->name);
     printf("Mode : %s\n", header->mode);
@@ -20,24 +20,12 @@ void print_tar_header(const tar_header *header) {
 }
 
 
-int test_tar_header() {
+void test_tar_header() {
     tar_header header;
     
     // Generate a header for a file named "testfile.txt" with a size of 1024 bytes
     init_tar_header(&header, "testfile.txt", 1024);
 
     // Print the header
-    print_tar_header(&header);
-
-    // Write the header to a file
-    FILE *file = fopen("test_header.bin", "wb");
-    if (file) {
-        fwrite(&header, 1, sizeof(header), file);
-        fclose(file);
-        printf("The header has been written to test_header.bin\n");
-    } else {
-        perror("Error opening file");
-    }
-
-    return 0;
+    // print_tar_header(&header);
 }

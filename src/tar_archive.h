@@ -38,6 +38,9 @@ void add_tar_data_block(tar_archive *archive, const uint8_t *data, size_t size);
 /* Function to finalize the archive by adding two empty blocks */
 void finalize_tar_archive(tar_archive *archive);
 
+/* Function to write a TAR archive to a file */
+bool write_tar_archive(const tar_archive *archive, const char *filename);
+
 /* Function to free the memory used by a TAR archive */
 void free_tar_archive(tar_archive *archive);
 

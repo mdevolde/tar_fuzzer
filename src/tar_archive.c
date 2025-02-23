@@ -56,6 +56,21 @@ void finalize_tar_archive(tar_archive *archive) {
 }
 
 
+bool write_tar_archive(const tar_archive *archive, const char *filename) {
+    FILE *file = fopen(filename, "wb");
+    if (file) {
+        tar_element *elements = archive->elements;
+        for (size_t i = 0; i < archive->element_count; i++) {
+            fwrite(&elements[i].block, 1, sizeof(tar_block), file);
+        }
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 void free_tar_archive(tar_archive *archive) {
     if (archive->elements) {
         free(archive->elements);
