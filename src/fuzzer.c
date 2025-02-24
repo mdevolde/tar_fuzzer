@@ -48,10 +48,8 @@ void execute_command(const char *executable, const char *tar_filename) {
         read(pipefd[0], output, sizeof(output) - 1);
         close(pipefd[0]);
 
-        int status;
-        waitpid(pid, &status, 0);
-
-        if (WIFEXITED(status) && WEXITSTATUS(status) != 0) {
+        // verify that stdout contain "*** The program has crashed ***"
+        if (strstr(output, "*** The program has crashed ***") != NULL) {
             char result_filename[256];
             snprintf(result_filename, sizeof(result_filename), "%s/success_%s", RESULT_DIR, tar_filename);
             rename(tar_filename, result_filename);
