@@ -39,7 +39,7 @@ void execute_command(const char *executable, const char *tar_filename) {
         close(pipefd[1]);
 
         execlp(executable, executable, tar_filename, NULL);
-        perror("❌ Erreur lors de exec()");
+        perror("Error during exec");
         exit(EXIT_FAILURE);
     } else { // Parent process
         close(pipefd[1]); // Close the write end of the pipe
