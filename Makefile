@@ -11,7 +11,7 @@ SRC_DIR = src
 TESTS_DIR = tests
 
 # Sources and objects for the main fuzzer, excluding main.c
-FUZZER_SOURCES = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c))
+FUZZER_SOURCES = $(filter-out $(SRC_DIR)/main.c, $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/attacks/*.c))
 FUZZER_OBJECTS = $(FUZZER_SOURCES:.c=.o)
 FUZZER_DEPFILES = $(FUZZER_OBJECTS:.o=.d)
 
