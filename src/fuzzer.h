@@ -4,17 +4,19 @@
 /**
  * Function pointer type for an attack function.
  * @param output_filename The name of the output file to generate.
+ * @param status The current index of the command.
  * @return void
  */
-typedef void (*attack_function)(const char *output_filename);
+typedef void (*attack_function)(const char *output_filename, int status);
 
 /**
  * Execute the command with the given executable and TAR filename.
  * @param executable The name of the executable to test.
  * @param tar_filename The name of the TAR file to use as input.
- * @return void
+ * @param status The current index of the command.
+ * @return int The exit status of the command.
  */
-void execute_command(const char *executable, const char *tar_filename);
+int execute_command(const char *executable, const char *tar_filename, int status);
 
 /**
  * Execute the fuzzer with the given executable.
