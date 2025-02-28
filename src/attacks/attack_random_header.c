@@ -1,20 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 #include "../tar_archive.h"
-#include "attack_overflow.h"
+#include "../tar_header.h"
+#include "attack_random_header.h"
 
-void attack_overflow(const char *output_filename, int index) {
-    char long_name[TAR_NAME_SIZE + 50];
-
-    memset(long_name, 'A' + (index % 26), sizeof(long_name) - 1);
-    long_name[sizeof(long_name) - 1] = '\0';
-
+void attack_random_header(const char *output_filename, int index) {
+    (void)index;
     tar_archive archive;
     init_tar_archive(&archive);
 
     tar_header header;
-    init_tar_header(&header, long_name, 1024);
+    memset(&header, rand() % 256, sizeof(header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);
