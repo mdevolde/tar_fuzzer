@@ -13,6 +13,7 @@ void attack_size_mismatch(const char *output_filename, int index) {
     init_tar_header(&header, "size_mismatch.txt", 1024);
 
     snprintf(header.size, sizeof(header.size), "%011o", 512 * (index + 1));
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
 

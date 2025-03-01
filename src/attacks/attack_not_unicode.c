@@ -31,6 +31,8 @@ void attack_not_unicode(const char *output_filename, int index) {
 
     strncpy(header.gname, corrupt_name, sizeof(header.gname) - 1);
     header.gname[sizeof(header.gname) - 1] = '\0';
+    
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
 
     add_tar_header(&archive, &header);

@@ -28,6 +28,7 @@ void attack_mtime_extreme(const char *output_filename, int index) {
     init_tar_header(&header, "mtime_test.txt", 1024);
     
     snprintf(header.mtime, sizeof(header.mtime), "%011o", (unsigned int)corrupt_mtime);
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);

@@ -13,6 +13,7 @@ void attack_unaligned_header(const char *output_filename, int index) {
     memset(&header, 0, sizeof(header));
     snprintf(header.name, sizeof(header.name), "unaligned_%d.txt", index);
     snprintf(header.size, sizeof(header.size), "%011o", 512);
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     uint8_t misaligned_data[TAR_BLOCK_SIZE + 1];
     memcpy(misaligned_data + 1, &header, sizeof(header));

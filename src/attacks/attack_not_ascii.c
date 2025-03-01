@@ -29,6 +29,7 @@ void attack_not_ascii(const char *output_filename, int index) {
     // Tester aussi `uname` et `gname`
     snprintf(header.uname, sizeof(header.uname), "%s", corrupt_name);
     snprintf(header.gname, sizeof(header.gname), "%s", corrupt_name);
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);

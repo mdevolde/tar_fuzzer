@@ -25,6 +25,7 @@ void attack_linkname_invalid(const char *output_filename, int index) {
     init_tar_header(&header, "linkname_test.txt", 1024);
     
     snprintf(header.linkname, sizeof(header.linkname), "%s", corrupt_linkname);
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);

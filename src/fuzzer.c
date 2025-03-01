@@ -22,6 +22,7 @@
 #include "attacks/attack_random_header.h"
 #include "attacks/attack_not_ascii.h"
 #include "attacks/attack_not_unicode.h"
+#include "attacks/attack_not_ascii_gid.h"
 
 
 #define RESULT_DIR "result/"
@@ -33,7 +34,7 @@ void ensure_result_dir() {
     }
 }
 
-int execute_command(const char *executable, const char *tar_filename, int status) {
+int execute_command(const char *executable, const char *tar_filename) {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
         perror("Error during pipe creation");
@@ -68,10 +69,13 @@ int execute_command(const char *executable, const char *tar_filename, int status
         // verify that stdout contain "*** The program has crashed ***"
         if (strstr(output, "*** The program has crashed ***") != NULL) {
             char result_filename[256];
-            snprintf(result_filename, sizeof(result_filename), "%s/success_%s_%d", RESULT_DIR, tar_filename, status);
+            snprintf(result_filename, sizeof(result_filename), "%s/success_%s", RESULT_DIR, tar_filename);
             rename(tar_filename, result_filename);
             return 1;
         } else {
+            if (strcmp(tar_filename, "test_not_ascii_gid_0.tar")) {} else {
+                return 0;
+            }
             remove(tar_filename);
             return 0;
         }
@@ -94,7 +98,8 @@ void execute_fuzzer(const char *executable) {
         attack_duplicate_header,
         attack_random_header,
         attack_not_ascii,
-        attack_not_unicode
+        attack_not_unicode,
+        attack_not_ascii_gid
     };
 
     const char *attack_names[] = {
@@ -110,7 +115,8 @@ void execute_fuzzer(const char *executable) {
         "duplicate_header",
         "random_header",
         "not_ascii",
-        "not_unicode"
+        "not_unicode",
+        "not_ascii_gid"
     };
 
     const int number_per_attack[] = {
@@ -126,7 +132,8 @@ void execute_fuzzer(const char *executable) {
         5,
         5,
         8,
-        8
+        8,
+        1
     };
 
     size_t attack_count = sizeof(attacks) / sizeof(attacks[0]);
@@ -143,7 +150,7 @@ void execute_fuzzer(const char *executable) {
             attacks[i](tar_filename, j);
 
             // Execute the command
-            int current_status = execute_command(executable, tar_filename, j);
+            int current_status = execute_command(executable, tar_filename);
             status += current_status;
         }
         printf("Attack %s: %d/%d crashes\n\n", attack_names[i], status, number_per_attack[i]);

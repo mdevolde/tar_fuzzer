@@ -26,6 +26,7 @@ void attack_wrong_checksum(const char *output_filename, int index) {
     init_tar_header(&header, "checksum_test.txt", 1024);
     
     memcpy(header.chksum, corrupt_chksum, sizeof(header.chksum));
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);

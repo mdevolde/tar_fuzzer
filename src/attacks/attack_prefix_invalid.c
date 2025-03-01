@@ -24,6 +24,7 @@ void attack_prefix_invalid(const char *output_filename, int index) {
     init_tar_header(&header, "prefix_test.txt", 1024);
     
     snprintf(header.prefix, sizeof(header.prefix), "%s", corrupt_prefix);
+    edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
     finalize_tar_archive(&archive);
