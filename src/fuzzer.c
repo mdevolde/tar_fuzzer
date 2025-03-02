@@ -20,9 +20,15 @@
 #include "attacks/attack_early_eof.h"
 #include "attacks/attack_duplicate_header.h"
 #include "attacks/attack_random_header.h"
-#include "attacks/attack_not_ascii.h"
-#include "attacks/attack_not_unicode.h"
+#include "attacks/attack_not_ascii_name.h"
 #include "attacks/attack_not_ascii_gid.h"
+#include "attacks/attack_not_ascii_mode.h"
+#include "attacks/attack_not_ascii_mtime.h"
+#include "attacks/attack_not_ascii_checksum.h"
+#include "attacks/attack_not_ascii_typeflag.h"
+#include "attacks/attack_not_ascii_linkname.h"
+#include "attacks/attack_not_ascii_uid.h"
+#include "attacks/attack_multiple_files.h"
 
 
 #define RESULT_DIR "result/"
@@ -64,7 +70,7 @@ int execute_command(const char *executable, const char *tar_filename) {
         close(pipefd[0]);
 
         // Print the stdout of the program
-        printf("%s\n", output);
+        //printf("%s\n", output);
 
         // verify that stdout contain "*** The program has crashed ***"
         if (strstr(output, "*** The program has crashed ***") != NULL) {
@@ -97,9 +103,15 @@ void execute_fuzzer(const char *executable) {
         attack_early_eof,
         attack_duplicate_header,
         attack_random_header,
-        attack_not_ascii,
-        attack_not_unicode,
-        attack_not_ascii_gid
+        attack_not_ascii_name,
+        attack_not_ascii_gid,
+        attack_not_ascii_mode,
+        attack_not_ascii_mtime,
+        attack_not_ascii_checksum,
+        attack_not_ascii_typeflag,
+        attack_not_ascii_linkname,
+        attack_not_ascii_uid,
+        attack_multiple_files,
     };
 
     const char *attack_names[] = {
@@ -114,9 +126,15 @@ void execute_fuzzer(const char *executable) {
         "early_eof",
         "duplicate_header",
         "random_header",
-        "not_ascii",
-        "not_unicode",
-        "not_ascii_gid"
+        "not_ascii_name",
+        "not_ascii_gid",
+        "not_ascii_mode",
+        "not_ascii_mtime",
+        "not_ascii_checksum",
+        "not_ascii_typeflag",
+        "not_ascii_linkname",
+        "not_ascii_uid",
+        "multiple_files",
     };
 
     const int number_per_attack[] = {
@@ -132,10 +150,17 @@ void execute_fuzzer(const char *executable) {
         5,
         5,
         8,
-        8,
-        1
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
     };
-
+    
+    int total_crashes = 0;
     size_t attack_count = sizeof(attacks) / sizeof(attacks[0]);
 
     printf("-------------------------------\n");
@@ -152,11 +177,14 @@ void execute_fuzzer(const char *executable) {
             // Execute the command
             int current_status = execute_command(executable, tar_filename);
             status += current_status;
+            total_crashes += current_status;
         }
         printf("Attack %s: %d/%d crashes\n\n", attack_names[i], status, number_per_attack[i]);
     }
 
-    // Rm .txt files
+    // Clean up
     system("rm -f *.txt");
+    printf("-------------------------------\n");
+    printf("Total crashes: %d\n", total_crashes);
     printf("-------------------------------\n");
 }

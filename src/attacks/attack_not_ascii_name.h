@@ -1,5 +1,5 @@
-#ifndef ATTACK_NOT_ASCII_H
-#define ATTACK_NOT_ASCII_H
+#ifndef ATTACK_NOT_ASCII_NAME_H
+#define ATTACK_NOT_ASCII_NAME_H
 
 /**
  * Create a TAR archive with a non-ASCII name.
@@ -7,6 +7,6 @@
  * @param index The index of the attack to perform.
  * @return void
  */
-void attack_not_ascii(const char *output_filename, int index);
+void attack_not_ascii_name(const char *output_filename, int index);
 
-#endif /* ATTACK_NOT_ASCII_H */
+#endif /* ATTACK_NOT_ASCII_NAME_H */

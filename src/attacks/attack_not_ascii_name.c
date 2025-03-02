@@ -3,9 +3,9 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
-#include "attack_not_ascii.h"
+#include "attack_not_ascii_name.h"
 
-void attack_not_ascii(const char *output_filename, int index) {
+void attack_not_ascii_name(const char *output_filename, int index) {
     const char *non_ascii_variants[] = {
         "éçàñ.txt",
         "Ωmega.txt",
@@ -26,7 +26,6 @@ void attack_not_ascii(const char *output_filename, int index) {
     tar_header header;
     init_tar_header(&header, corrupt_name, 1024);
 
-    // Tester aussi `uname` et `gname`
     snprintf(header.uname, sizeof(header.uname), "%s", corrupt_name);
     snprintf(header.gname, sizeof(header.gname), "%s", corrupt_name);
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));

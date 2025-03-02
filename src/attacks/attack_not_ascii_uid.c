@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
-#include "attack_not_ascii_gid.h"
+#include "attack_not_ascii_uid.h"
 
-void attack_not_ascii_gid(const char *output_filename, int index) {
+void attack_not_ascii_uid(const char *output_filename, int index) {
     (void)index;
 
     tar_archive archive;
@@ -15,8 +15,8 @@ void attack_not_ascii_gid(const char *output_filename, int index) {
     tar_header header;
     init_tar_header(&header, "hello.txt", 13);
 
-    // Fill the GID field with non-ASCII characters
-    snprintf(header.gid, sizeof(header.gid), "%s", "бк");
+    // Fill the UID field with non-ASCII characters
+    snprintf(header.uid, sizeof(header.uid), "%s", "бк");
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
     add_tar_header(&archive, &header);
