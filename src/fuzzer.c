@@ -35,6 +35,12 @@
 #include "attacks/attack_non_numeric_mtime.h"
 #include "attacks/attack_non_numeric_size.h"
 #include "attacks/attack_non_numeric_uid.h"
+#include "attacks/attack_not_octal_checksum.h"
+#include "attacks/attack_not_octal_gid.h"
+#include "attacks/attack_not_octal_mode.h"
+#include "attacks/attack_not_octal_mtime.h"
+#include "attacks/attack_not_octal_size.h"
+#include "attacks/attack_not_octal_uid.h"
 
 
 #define RESULT_DIR "result/"
@@ -124,6 +130,12 @@ void execute_fuzzer(const char *executable) {
         attack_non_numeric_mtime,
         attack_non_numeric_size,
         attack_non_numeric_uid,
+        attack_not_octal_checksum,
+        attack_not_octal_gid,
+        attack_not_octal_mode,
+        attack_not_octal_mtime,
+        attack_not_octal_size,
+        attack_not_octal_uid,
     };
 
     const char *attack_names[] = {
@@ -153,6 +165,12 @@ void execute_fuzzer(const char *executable) {
         "non_numeric_mtime",
         "non_numeric_size",
         "non_numeric_uid",
+        "not_octal_checksum",
+        "not_octal_gid",
+        "not_octal_mode",
+        "not_octal_mtime",
+        "not_octal_size",
+        "not_octal_uid",
     };
 
     const int number_per_attack[] = {
@@ -168,6 +186,12 @@ void execute_fuzzer(const char *executable) {
         5,
         5,
         8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
         1,
         1,
         1,
