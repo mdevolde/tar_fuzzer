@@ -29,6 +29,12 @@
 #include "attacks/attack_not_ascii_linkname.h"
 #include "attacks/attack_not_ascii_uid.h"
 #include "attacks/attack_multiple_files.h"
+#include "attacks/attack_non_numeric_checksum.h"
+#include "attacks/attack_non_numeric_gid.h"
+#include "attacks/attack_non_numeric_mode.h"
+#include "attacks/attack_non_numeric_mtime.h"
+#include "attacks/attack_non_numeric_size.h"
+#include "attacks/attack_non_numeric_uid.h"
 
 
 #define RESULT_DIR "result/"
@@ -112,6 +118,12 @@ void execute_fuzzer(const char *executable) {
         attack_not_ascii_linkname,
         attack_not_ascii_uid,
         attack_multiple_files,
+        attack_non_numeric_checksum,
+        attack_non_numeric_gid,
+        attack_non_numeric_mode,
+        attack_non_numeric_mtime,
+        attack_non_numeric_size,
+        attack_non_numeric_uid,
     };
 
     const char *attack_names[] = {
@@ -135,6 +147,12 @@ void execute_fuzzer(const char *executable) {
         "not_ascii_linkname",
         "not_ascii_uid",
         "multiple_files",
+        "non_numeric_checksum",
+        "non_numeric_gid",
+        "non_numeric_mode",
+        "non_numeric_mtime",
+        "non_numeric_size",
+        "non_numeric_uid",
     };
 
     const int number_per_attack[] = {
@@ -150,6 +168,12 @@ void execute_fuzzer(const char *executable) {
         5,
         5,
         8,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
         1,
         1,
         1,
