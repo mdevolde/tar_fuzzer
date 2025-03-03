@@ -20,27 +20,10 @@
 #include "attacks/attack_early_eof.h"
 #include "attacks/attack_duplicate_header.h"
 #include "attacks/attack_random_header.h"
-#include "attacks/attack_not_ascii_name.h"
-#include "attacks/attack_not_ascii_gid.h"
-#include "attacks/attack_not_ascii_mode.h"
-#include "attacks/attack_not_ascii_mtime.h"
-#include "attacks/attack_not_ascii_checksum.h"
-#include "attacks/attack_not_ascii_typeflag.h"
-#include "attacks/attack_not_ascii_linkname.h"
-#include "attacks/attack_not_ascii_uid.h"
 #include "attacks/attack_multiple_files.h"
-#include "attacks/attack_non_numeric_checksum.h"
-#include "attacks/attack_non_numeric_gid.h"
-#include "attacks/attack_non_numeric_mode.h"
-#include "attacks/attack_non_numeric_mtime.h"
-#include "attacks/attack_non_numeric_size.h"
-#include "attacks/attack_non_numeric_uid.h"
-#include "attacks/attack_not_octal_checksum.h"
-#include "attacks/attack_not_octal_gid.h"
-#include "attacks/attack_not_octal_mode.h"
-#include "attacks/attack_not_octal_mtime.h"
-#include "attacks/attack_not_octal_size.h"
-#include "attacks/attack_not_octal_uid.h"
+#include "attacks/attack_non_numeric.h"
+#include "attacks/attack_non_ascii.h"
+#include "attacks/attack_non_octal.h"
 
 
 #define RESULT_DIR "result/"
@@ -115,27 +98,10 @@ void execute_fuzzer(const char *executable) {
         attack_early_eof,
         attack_duplicate_header,
         attack_random_header,
-        attack_not_ascii_name,
-        attack_not_ascii_gid,
-        attack_not_ascii_mode,
-        attack_not_ascii_mtime,
-        attack_not_ascii_checksum,
-        attack_not_ascii_typeflag,
-        attack_not_ascii_linkname,
-        attack_not_ascii_uid,
         attack_multiple_files,
-        attack_non_numeric_checksum,
-        attack_non_numeric_gid,
-        attack_non_numeric_mode,
-        attack_non_numeric_mtime,
-        attack_non_numeric_size,
-        attack_non_numeric_uid,
-        attack_not_octal_checksum,
-        attack_not_octal_gid,
-        attack_not_octal_mode,
-        attack_not_octal_mtime,
-        attack_not_octal_size,
-        attack_not_octal_uid,
+        attack_non_numeric,
+        attack_non_ascii,
+        attack_non_octal,
     };
 
     const char *attack_names[] = {
@@ -150,27 +116,10 @@ void execute_fuzzer(const char *executable) {
         "early_eof",
         "duplicate_header",
         "random_header",
-        "not_ascii_name",
-        "not_ascii_gid",
-        "not_ascii_mode",
-        "not_ascii_mtime",
-        "not_ascii_checksum",
-        "not_ascii_typeflag",
-        "not_ascii_linkname",
-        "not_ascii_uid",
         "multiple_files",
-        "non_numeric_checksum",
-        "non_numeric_gid",
-        "non_numeric_mode",
-        "non_numeric_mtime",
-        "non_numeric_size",
-        "non_numeric_uid",
-        "not_octal_checksum",
-        "not_octal_gid",
-        "not_octal_mode",
-        "not_octal_mtime",
-        "not_octal_size",
-        "not_octal_uid",
+        "non_numeric",
+        "non_ascii",
+        "non_octal",
     };
 
     const int number_per_attack[] = {
@@ -185,27 +134,10 @@ void execute_fuzzer(const char *executable) {
         1,
         5,
         5,
+        1,
+        6,
         8,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
+        6,
     };
     
     int total_crashes = 0;
