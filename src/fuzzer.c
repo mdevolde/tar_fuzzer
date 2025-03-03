@@ -24,6 +24,7 @@
 #include "attacks/attack_non_numeric.h"
 #include "attacks/attack_non_ascii.h"
 #include "attacks/attack_non_octal.h"
+#include "attacks/attack_non_null_terminaison.h"
 
 
 #define RESULT_DIR "result/"
@@ -102,6 +103,7 @@ void execute_fuzzer(const char *executable) {
         attack_non_numeric,
         attack_non_ascii,
         attack_non_octal,
+        attack_non_null_terminaison,
     };
 
     const char *attack_names[] = {
@@ -120,6 +122,7 @@ void execute_fuzzer(const char *executable) {
         "non_numeric",
         "non_ascii",
         "non_octal",
+        "non_null_terminaison",
     };
 
     const int number_per_attack[] = {
@@ -138,6 +141,7 @@ void execute_fuzzer(const char *executable) {
         6,
         8,
         6,
+        11,
     };
     
     int total_crashes = 0;
