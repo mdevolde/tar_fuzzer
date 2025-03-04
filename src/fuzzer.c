@@ -133,7 +133,7 @@ void execute_fuzzer(const char *executable) {
         10,
         8,
         8,
-        8,
+        2,
         6,
         5,
         1,
