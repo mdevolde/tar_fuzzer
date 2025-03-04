@@ -9,6 +9,13 @@
 int file_exists(const char *filename);
 
 /**
+ * Verify if a directory is empty.
+ * @param path The path of the directory to check.
+ * @return 1 if the directory is empty, 0 otherwise.
+ */
+int is_dir_empty(const char *path);
+
+/**
  * Create a mock extractor to test the fuzzer.
  * @return void
  */

@@ -6,12 +6,13 @@
 #include "attack_unaligned_header.h"
 
 void attack_unaligned_header(const char *output_filename, int index) {
+    (void) index;
     tar_archive archive;
     init_tar_archive(&archive);
 
     tar_header header;
     memset(&header, 0, sizeof(header));
-    snprintf(header.name, sizeof(header.name), "unaligned_%d.txt", index);
+    snprintf(header.name, sizeof(header.name), "unaligned.txt");
     snprintf(header.size, sizeof(header.size), "%011o", 512);
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 

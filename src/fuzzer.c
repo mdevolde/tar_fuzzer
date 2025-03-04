@@ -9,7 +9,6 @@
 #include "fuzzer.h"
 #include "tar_archive.h"
 
-#include "attacks/attack_overflow.h"
 #include "attacks/attack_wrong_checksum.h"
 #include "attacks/attack_name_special.h"
 #include "attacks/attack_mtime_extreme.h"
@@ -91,7 +90,6 @@ void execute_fuzzer(const char *executable) {
     ensure_result_dir();
 
     attack_function attacks[] = {
-        attack_overflow,
         attack_wrong_checksum,
         attack_name_special,
         attack_mtime_extreme,
@@ -112,7 +110,6 @@ void execute_fuzzer(const char *executable) {
     };
 
     const char *attack_names[] = {
-        "overflow",
         "wrong_checksum",
         "name_special",
         "mtime_extreme",
@@ -133,14 +130,13 @@ void execute_fuzzer(const char *executable) {
     };
 
     const int number_per_attack[] = {
-        1,
         10,
         8,
         8,
         8,
         6,
         5,
-        5,
+        1,
         1,
         5,
         5,

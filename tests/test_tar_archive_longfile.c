@@ -60,4 +60,7 @@ void test_tar_archive_longfile() {
 
     // 8. Free the memory
     free_tar_archive(&archive);
+
+    // 9. Remove the tar file
+    remove("test_archive_long.tar");
 }

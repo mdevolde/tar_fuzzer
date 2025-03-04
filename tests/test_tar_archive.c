@@ -59,4 +59,7 @@ void test_tar_archive() {
 
     // 8. Free the memory
     free_tar_archive(&archive);
+
+    // 9. Remove the archive
+    remove("test_archive.tar");
 }
