@@ -27,6 +27,9 @@ void attack_extreme(const char *output_filename, int index) {
     tar_header header;
     init_tar_header(&header, "mtime_test.txt", 1024);
 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wformat-truncation"
+
     switch (field)
     {
     case FIELD_MODE:
@@ -47,6 +50,8 @@ void attack_extreme(const char *output_filename, int index) {
     default:
         break;
     }
+
+    #pragma GCC diagnostic pop
     
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
