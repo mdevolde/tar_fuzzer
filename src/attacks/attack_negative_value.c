@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h" 
 #include "attack_negative_value.h"
 
 void attack_negative_value(const char *output_filename, int index) {
@@ -10,17 +11,9 @@ void attack_negative_value(const char *output_filename, int index) {
     init_tar_archive(&archive);
 
     tar_header header;
-    typedef enum {
-        FIELD_MODE,
-        FIELD_UID,
-        FIELD_GID,
-        FIELD_SIZE,
-        FIELD_MTIME,
-        NUM_FIELDS
-    } TargetField;
-
-    TargetField field = index % NUM_FIELDS;
     init_tar_header(&header, "test.txt", 1500);
+
+    TargetField field = target_field_from_index(index);
 
     // Set numeric fields to a negative value (there is no reason for them to be negative)
     switch (field) {

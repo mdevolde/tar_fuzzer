@@ -4,28 +4,20 @@
 #include <limits.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h"
 #include "attack_extreme.h"
 
 void attack_extreme(const char *output_filename, int index) {
     tar_archive archive;
     init_tar_archive(&archive);
 
-    typedef enum {
-        FIELD_MODE,
-        FIELD_UID,
-        FIELD_GID,
-        FIELD_SIZE,
-        FIELD_MTIME,
-        NUM_FIELDS
-    } TargetField;
+    tar_header header;
+    init_tar_header(&header, "mtime_test.txt", 1024);
 
-    TargetField field = index % NUM_FIELDS;
+    TargetField field = target_field_from_index(index);
     unsigned long corrupt_value = (field == FIELD_SIZE || field == FIELD_MTIME) 
                                   ? 077777777777   // Max in octal for size, mtime
                                   : 07777777;      // Max in octal for mode, uid, gid
-
-    tar_header header;
-    init_tar_header(&header, "mtime_test.txt", 1024);
 
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wformat-truncation"

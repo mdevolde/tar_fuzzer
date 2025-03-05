@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h" 
 #include "attack_non_null_terminaison.h"
 
 void attack_non_null_terminaison(const char *output_filename, int index) {
@@ -10,27 +11,14 @@ void attack_non_null_terminaison(const char *output_filename, int index) {
     init_tar_archive(&archive);
 
     tar_header header;
-    typedef enum {
-        FIELD_CHECKSUM,
-        FIELD_GID,
-        FIELD_MODE,
-        FIELD_MTIME,
-        FIELD_UID,
-        FIELD_NAME,
-        FIELD_SIZE,
-        FIELD_MAGIC,
-        FIELD_UNAME,
-        FIELD_GNAME,
-        NUM_FIELDS,
-    } TargetField;
-
-    TargetField field = index % NUM_FIELDS;
     init_tar_header(&header, "test.txt", 1500);
+
+    TargetField field = target_field_from_index(index);
 
     // Set a value but do not null-terminate it (all of these fields should be null-terminated)
     switch (field)
     {
-    case FIELD_CHECKSUM:
+    case FIELD_CHKSUM:
         memset(header.chksum, ' ', sizeof(header.chksum));
         break;
     case FIELD_GID:

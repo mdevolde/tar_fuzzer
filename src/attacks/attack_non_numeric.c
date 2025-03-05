@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h" 
 #include "attack_non_numeric.h"
 
 void attack_non_numeric(const char *output_filename, int index) {
@@ -12,20 +13,10 @@ void attack_non_numeric(const char *output_filename, int index) {
     tar_header header;
     init_tar_header(&header, "test.txt", 1024);
 
-    const char *non_numeric_string = "IAmANonNumericStringAndItWillCrash";
+    TargetField field = target_field_from_index(index);
 
-    typedef enum {
-        FIELD_CHECKSUM,
-        FIELD_GID,
-        FIELD_MODE,
-        FIELD_MTIME,
-        FIELD_SIZE,
-        FIELD_UID,
-        NUM_FIELDS
-    } TargetField;
-
-    TargetField field = index % NUM_FIELDS;
     size_t slice_size;
+    const char *non_numeric_string = "IAmANonNumericStringAndItWillCrash";
     const char *non_numeric_string_slice;
 
     // Set numeric fields to a non-numeric value (they should be numeric)
@@ -65,7 +56,7 @@ void attack_non_numeric(const char *output_filename, int index) {
         memcpy(header.uid, non_numeric_string_slice, slice_size);
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
-    case FIELD_CHECKSUM:
+    case FIELD_CHKSUM:
         slice_size = sizeof(header.chksum) - 1;
         non_numeric_string_slice = non_numeric_string;
         memset(header.chksum, 0, sizeof(header.chksum));

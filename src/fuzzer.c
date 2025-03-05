@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include "fuzzer.h"
 #include "tar_archive.h"
+#include "header_fields.h"
 
 #include "attacks/attack_extreme.h"
 #include "attacks/attack_unaligned_header.h"
@@ -150,17 +151,17 @@ void execute_fuzzer(const char *executable) {
     };
 
     const int number_per_attack[] = {
-        5,
+        11,
         1,
         1,
         1,
         1,
-        6,
-        8,
-        6,
-        10,
-        10,
-        5,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
         1,
         1,
         1
@@ -175,7 +176,10 @@ void execute_fuzzer(const char *executable) {
         int status = 0;
         for (int j = 0; j < number_per_attack[i]; j++) {    
             char tar_filename[256];
-            snprintf(tar_filename, sizeof(tar_filename), "test_%s_%d.tar", attack_names[i], j);
+            if (number_per_attack[i] == 1)
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s.tar", attack_names[i]);
+            else
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attack_names[i], field_to_string(j));
 
             // Execute the attack, e.g.
             attacks[i](tar_filename, j);
@@ -185,7 +189,22 @@ void execute_fuzzer(const char *executable) {
             status += current_status;
             total_crashes += current_status;
         }
-        printf("Attack %s: %d/%d crashes\n\n", attack_names[i], status, number_per_attack[i]);
+        printf("Attack %s: %d/%d crashes\n", attack_names[i], status, number_per_attack[i]);
+
+        // Check if there files with the attack name in and if so, print them with comma separation
+        char files[100][256];
+        int count = list_files(files, 100);
+        int found = 0;
+
+        for (int k = 0; k < count; k++) {
+            if (strstr(files[k], attack_names[i]) != NULL) {
+                if (found > 0) printf(", ");
+                printf("%s", files[k]);
+                found++;
+            }
+        }
+        if (found > 0) printf("\n");
+        printf("\n");
     }
 
     // Clean up

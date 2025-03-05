@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h" 
 #include "attack_non_ascii.h"
 
 void attack_non_ascii(const char *output_filename, int index) {
@@ -12,24 +13,14 @@ void attack_non_ascii(const char *output_filename, int index) {
     const char *not_ascii = "бк";
 
     tar_header header;
-    typedef enum {
-        FIELD_CHECKSUM,
-        FIELD_GID,
-        FIELD_MODE,
-        FIELD_MTIME,
-        FIELD_UID,
-        FIELD_LINKNAME,
-        FIELD_NAME,
-        FIELD_TYPEFLAG,
-        NUM_FIELDS,
-    } TargetField;
+    memset(&header, 0, sizeof(header));
 
-    TargetField field = index % NUM_FIELDS;
+    TargetField field = target_field_from_index(index);
 
     // Set a value with non-ASCII characters in such fields
     switch (field)
     {
-    case FIELD_CHECKSUM:
+    case FIELD_CHKSUM:
         init_tar_header(&header, "chksum_test.txt", 13);
         snprintf(header.chksum, sizeof(header.chksum), "%s", not_ascii);
         break;
@@ -51,11 +42,6 @@ void attack_non_ascii(const char *output_filename, int index) {
     case FIELD_UID:
         init_tar_header(&header, "uid_test.txt", 13);
         snprintf(header.uid, sizeof(header.uid), "%s", not_ascii);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
-        break;
-    case FIELD_LINKNAME:
-        init_tar_header(&header, "linkname_test.txt", 13);
-        snprintf(header.linkname, sizeof(header.linkname), "%s", not_ascii);
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_NAME:

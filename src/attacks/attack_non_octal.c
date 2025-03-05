@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../tar_archive.h"
 #include "../tar_header.h"
+#include "../header_fields.h"
 #include "./attack_non_octal.h"
 
 void attack_non_octal(const char *output_filename, int index) {
@@ -12,22 +13,12 @@ void attack_non_octal(const char *output_filename, int index) {
     tar_header header;
     init_tar_header(&header, "test.txt", 1024);
 
-    typedef enum {
-        FIELD_CHECKSUM,
-        FIELD_GID,
-        FIELD_MODE,
-        FIELD_MTIME,
-        FIELD_SIZE,
-        FIELD_UID,
-        NUM_FIELDS
-    } TargetField;
-
-    TargetField field = index % NUM_FIELDS;
+    TargetField field = target_field_from_index(index);
 
     // Set numeric fields to a non-octal value (they should be octal)
     switch (field)
     {
-    case FIELD_CHECKSUM:
+    case FIELD_CHKSUM:
         snprintf(header.chksum, sizeof(header.chksum), "%07d", 9);
         break;
     case FIELD_GID:
