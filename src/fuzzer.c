@@ -197,6 +197,11 @@ void execute_fuzzer(const char *executable) {
             status += current_status;
             total_crashes += current_status;
         }
+        
+        // For testing case when the attack always works even when it's a skip attack
+        if (status > number_per_attack[i] - skip_attack) {
+            status = number_per_attack[i] - skip_attack;
+        }
         printf("Attack %s: %d/%d crashes\n", attack_names[i], status, number_per_attack[i] - skip_attack);
 
         // Check if there files with the attack name in and if so, print them with comma separation
