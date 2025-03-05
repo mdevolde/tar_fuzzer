@@ -6,7 +6,8 @@
 #include "../header_fields.h"
 #include "attack_control_chars.h"
 
-void attack_control_chars(const char *output_filename, int index) {
+bool attack_control_chars(const char *output_filename, int index) {
+    bool is_header_tested = true;
     tar_archive archive;
     init_tar_archive(&archive);
 
@@ -31,7 +32,8 @@ void attack_control_chars(const char *output_filename, int index) {
         snprintf(header.gname, sizeof(header.gname), "%s", injected_value);
         break;
     default:
-        return;
+        is_header_tested = false;
+        break;
     }
 
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
@@ -40,4 +42,6 @@ void attack_control_chars(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+    
+    return is_header_tested;
 }
