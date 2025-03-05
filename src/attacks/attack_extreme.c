@@ -30,6 +30,7 @@ void attack_extreme(const char *output_filename, int index) {
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wformat-truncation"
 
+    // Set numeric fields to an extreme value
     switch (field)
     {
     case FIELD_MODE:

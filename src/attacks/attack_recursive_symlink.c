@@ -12,7 +12,9 @@ void attack_recursive_symlink(const char *output_filename, int index) {
 
     tar_header header;
     init_tar_header(&header, "recursive_link", 0);
+    // Set the typeflag to '2' to indicate a symbolic link
     header.typeflag = '2';
+    // Set the linkname to the same value as the name
     snprintf(header.linkname, sizeof(header.linkname), "recursive_link");
 
     add_tar_header(&archive, &header);

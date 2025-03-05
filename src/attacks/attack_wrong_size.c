@@ -27,6 +27,7 @@ void attack_wrong_size(const char *output_filename, int index) {
     TargetField field = index % NUM_FIELDS;
     init_tar_header(&header, "test.txt", 1500);
 
+    // Set a value with a different size than the expected one 
     switch (field)
     {
     case FIELD_CHECKSUM:

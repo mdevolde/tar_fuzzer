@@ -15,6 +15,7 @@ void attack_duplicate_header(const char *output_filename, int index) {
 
     add_tar_header(&archive, &header);
     
+    // Add the same header multiple times
     for (int i = 0; i < 3; i++) {
         add_tar_header(&archive, &header);
     }

@@ -14,6 +14,7 @@ void attack_zero_size_file(const char *output_filename, int index) {
     init_tar_header(&header, "zero_file.txt", 0);
     add_tar_header(&archive, &header);
 
+    // Add data to the archive which is supposed to be zero size 
     const uint8_t extra_data[] = "Extra data";
     add_tar_data_block(&archive, extra_data, sizeof(extra_data));
 

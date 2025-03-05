@@ -28,6 +28,7 @@ void attack_non_numeric(const char *output_filename, int index) {
     size_t slice_size;
     const char *non_numeric_string_slice;
 
+    // Set numeric fields to a non-numeric value (they should be numeric)
     switch (field) {
     case FIELD_GID:
         slice_size = sizeof(header.gid) - 1;

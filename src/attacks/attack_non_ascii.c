@@ -26,6 +26,7 @@ void attack_non_ascii(const char *output_filename, int index) {
 
     TargetField field = index % NUM_FIELDS;
 
+    // Set a value with non-ASCII characters in such fields
     switch (field)
     {
     case FIELD_CHECKSUM:

@@ -24,6 +24,7 @@ void attack_non_octal(const char *output_filename, int index) {
 
     TargetField field = index % NUM_FIELDS;
 
+    // Set numeric fields to a non-octal value (they should be octal)
     switch (field)
     {
     case FIELD_CHECKSUM:

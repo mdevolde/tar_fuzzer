@@ -15,7 +15,7 @@ void attack_early_eof(const char *output_filename, int index) {
 
     add_tar_header(&archive, &header);
 
-    // Do not finalize the archive to create an early EOF
+    // Intentionally do not add the two empty blocks at the end of the archive
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
 }

@@ -27,6 +27,7 @@ void attack_non_null_terminaison(const char *output_filename, int index) {
     TargetField field = index % NUM_FIELDS;
     init_tar_header(&header, "test.txt", 1500);
 
+    // Set a value but do not null-terminate it (all of these fields should be null-terminated)
     switch (field)
     {
     case FIELD_CHECKSUM:

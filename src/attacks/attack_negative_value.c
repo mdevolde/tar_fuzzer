@@ -22,6 +22,7 @@ void attack_negative_value(const char *output_filename, int index) {
     TargetField field = index % NUM_FIELDS;
     init_tar_header(&header, "test.txt", 1500);
 
+    // Set numeric fields to a negative value (there is no reason for them to be negative)
     switch (field) {
         case FIELD_MODE:
             snprintf(header.mode, sizeof(header.mode) - 1, "-0755");

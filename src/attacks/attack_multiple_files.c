@@ -25,6 +25,7 @@ void attack_multiple_files(const char *output_filename, int index) {
 
     int num_files = sizeof(filenames) / sizeof(filenames[0]);
 
+    // Add multiple files to the archive
     for (int i = 0; i < num_files; i++) {
         tar_header header;
         init_tar_header(&header, filenames[i], sizes[i]);
