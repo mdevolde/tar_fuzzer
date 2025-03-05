@@ -11,7 +11,7 @@ void attack_name_special(const char *output_filename, int index) {
         "file_with_?.txt",
         "file_with_newline\n.txt",
         "Ωmega_file.txt",
-        "你好世界.txt",
+        "file\x01\x02.txt",
         "ファイル.txt",
         "file_with_\x7F_del.txt",
         "file_with_\x00_null.txt"

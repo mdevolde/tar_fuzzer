@@ -26,6 +26,10 @@
 #include "attacks/attack_non_null_terminaison.h"
 #include "attacks/attack_wrong_size.h"
 #include "attacks/attack_negative_value.h"
+#include "attacks/attack_recursive_symlink.h"
+#include "attacks/attack_zero_size_file.h"
+#include "attacks/attack_extra_padding.h"
+#include "attacks/attack_hardlink_to_missing_file.h"
 
 
 
@@ -109,7 +113,11 @@ void execute_fuzzer(const char *executable) {
         attack_non_octal,
         attack_non_null_terminaison,
         attack_wrong_size,
-        attack_negative_value
+        attack_negative_value,
+        attack_recursive_symlink,
+        attack_zero_size_file,
+        attack_extra_padding,
+        attack_hardlink_to_missing_file
     };
 
     const char *attack_names[] = {
@@ -129,7 +137,11 @@ void execute_fuzzer(const char *executable) {
         "non_octal",
         "non_null_terminaison",
         "wrong_size",
-        "negative_value"
+        "negative_value",
+        "recursive_symlink",
+        "zero_size_file",
+        "extra_padding",
+        "hardlink_to_missing_file"
     };
 
     const int number_per_attack[] = {
@@ -149,7 +161,11 @@ void execute_fuzzer(const char *executable) {
         6,
         10,
         10,
-        5
+        5,
+        1,
+        1,
+        1,
+        1
     };
     
     int total_crashes = 0;
