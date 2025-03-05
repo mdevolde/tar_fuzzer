@@ -16,7 +16,7 @@ void attack_unaligned_header(const char *output_filename, int index) {
     snprintf(header.size, sizeof(header.size), "%011o", 512);
     edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
 
-    uint8_t misaligned_data[TAR_BLOCK_SIZE + 1];
+    uint8_t misaligned_data[TAR_BLOCK_SIZE + 1] = {0};
     memcpy(misaligned_data + 1, &header, sizeof(header));
 
     add_tar_data_block(&archive, misaligned_data, sizeof(misaligned_data));

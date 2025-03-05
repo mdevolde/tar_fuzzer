@@ -31,6 +31,7 @@ void init_tar_archive(tar_archive *archive) {
 void add_tar_header(tar_archive *archive, const tar_header *header) {
     expand_tar_archive(archive);
     tar_element *element = &archive->elements[archive->element_count++];
+    memset(element->block.data, 0, TAR_BLOCK_SIZE); // Fill the block with zeros
     memcpy(element->block.data, header, sizeof(tar_header)); // Copy the header to the block
     element->is_header = 1;
 }
@@ -39,6 +40,7 @@ void add_tar_header(tar_archive *archive, const tar_header *header) {
 void add_tar_data_block(tar_archive *archive, const uint8_t *data, size_t size) {
     expand_tar_archive(archive);
     tar_element *element = &archive->elements[archive->element_count++];
+    memset(element->block.data, 0, TAR_BLOCK_SIZE); // Fill the block with zeros
     memcpy(element->block.data, data, size > TAR_BLOCK_SIZE ? TAR_BLOCK_SIZE : size);
     element->is_header = 0;
 
