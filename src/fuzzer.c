@@ -32,16 +32,6 @@
 #include "attacks/attack_hardlink_to_missing_file.h"
 
 
-
-#define RESULT_DIR "result/"
-
-void ensure_result_dir() {
-    struct stat st = {0};
-    if (stat(RESULT_DIR, &st) == -1) {
-        mkdir(RESULT_DIR, 0700);
-    }
-}
-
 int execute_command(const char *executable, const char *tar_filename) {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
@@ -77,7 +67,7 @@ int execute_command(const char *executable, const char *tar_filename) {
         // verify that stdout contain "*** The program has crashed ***"
         if (strstr(output, "*** The program has crashed ***") != NULL) {
             char result_filename[256];
-            snprintf(result_filename, sizeof(result_filename), "%s/success_%s", RESULT_DIR, tar_filename);
+            snprintf(result_filename, sizeof(result_filename), "success_%s", tar_filename);
             rename(tar_filename, result_filename);
             return 1;
         } else {
@@ -91,10 +81,8 @@ int execute_command(const char *executable, const char *tar_filename) {
 }
 
 void execute_fuzzer(const char *executable) {
-    ensure_result_dir();
-
-    // Clean up result directory
-    system("rm -f result/*");
+    // Clean up the directory
+    system("rm -f *.tar");
 
     attack_function attacks[] = {
         attack_wrong_checksum,

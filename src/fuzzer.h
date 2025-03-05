@@ -24,10 +24,5 @@ int execute_command(const char *executable, const char *tar_filename);
  */
 void execute_fuzzer(const char *executable);
 
-/**
- * Ensure that the result directory exists.
- * @return void
- */
-void ensure_result_dir();
 
 #endif /* FUZZER_H */
