@@ -18,6 +18,22 @@ typedef void (*attack_function)(const char *output_filename, int status);
 int execute_command(const char *executable, const char *tar_filename);
 
 /**
+ * List all files in the current directory.
+ * @param filenames The array to store the filenames.
+ * @param max_files The maximum number of files to store.
+ * @return int The number of files found.
+ */
+int list_files(char filenames[][256], int max_files);
+
+/**
+ * Compare two filenames for sorting.
+ * @param a The first filename.
+ * @param b The second filename.
+ * @return int The comparison result.
+ */
+int compare_filenames(const void *a, const void *b);
+
+/**
  * Execute the fuzzer with the given executable.
  * @param executable The name of the executable to test.
  * @return void

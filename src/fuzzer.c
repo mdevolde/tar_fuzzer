@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include "fuzzer.h"
 #include "tar_archive.h"
 
@@ -39,6 +40,10 @@ int execute_command(const char *executable, const char *tar_filename) {
         return 0;
     }
 
+    char files_before[100][256];
+    int count_before = list_files(files_before, 100);
+    qsort(files_before, count_before, 256, compare_filenames);
+
     pid_t pid = fork();
     if (pid < 0) {
         perror("Error during fork");
@@ -61,6 +66,18 @@ int execute_command(const char *executable, const char *tar_filename) {
         read(pipefd[0], output, sizeof(output) - 1);
         close(pipefd[0]);
 
+        char files_after[100][256];
+        int count_after = list_files(files_after, 100);
+        qsort(files_after, count_after, 256, compare_filenames);
+
+        for (int i = 0; i < count_after; i++) {
+            if (bsearch(files_after[i], files_before, count_before, 256, compare_filenames) == NULL) {
+                if (strstr(files_after[i], ".tar") == NULL) {
+                    remove(files_after[i]);
+                }
+            }
+        }
+
         // Print the stdout of the program
         //printf("%s\n", output);
 
@@ -71,13 +88,34 @@ int execute_command(const char *executable, const char *tar_filename) {
             rename(tar_filename, result_filename);
             return 1;
         } else {
-            if (strcmp(tar_filename, "test_not_ascii_gid_0.tar")) {} else {
-                return 0;
-            }
             remove(tar_filename);
             return 0;
         }
     }
+}
+
+int list_files(char filenames[][256], int max_files) {
+    DIR *dir = opendir(".");
+    if (!dir) return 0;
+
+    struct dirent *entry;
+    int count = 0;
+
+    while ((entry = readdir(dir)) != NULL && count < max_files) {
+        struct stat path_stat;
+        if (stat(entry->d_name, &path_stat) == 0 && S_ISREG(path_stat.st_mode)) { 
+            strncpy(filenames[count], entry->d_name, 255);
+            filenames[count][255] = '\0';
+            count++;
+        }
+    }
+
+    closedir(dir);
+    return count;
+}
+
+int compare_filenames(const void *a, const void *b) {
+    return strcmp((const char *)a, (const char *)b);
 }
 
 void execute_fuzzer(const char *executable) {
@@ -179,7 +217,6 @@ void execute_fuzzer(const char *executable) {
     }
 
     // Clean up
-    system("find . -maxdepth 1 -type f ! ! name '.*' ! -name '*.tar' ! -name '*.c' ! -name '*.h' ! -name 'Makefile' ! -name 'README.md' ! -name 'fuzzer' ! -name 'fuzzer_test' ! -name 'extractor*' -delete");
     printf("-------------------------------\n");
     printf("Total crashes: %d\n", total_crashes);
     printf("-------------------------------\n");
