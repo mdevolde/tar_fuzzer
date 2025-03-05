@@ -3,9 +3,7 @@
 
 #include "tar_header.h"
 
-/** Main function
- * @return 0
- */
+/* Function to test the TAR header creation */
 void test_tar_header();
 
 #endif
