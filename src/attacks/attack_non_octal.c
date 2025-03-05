@@ -6,7 +6,9 @@
 #include "../header_fields.h"
 #include "./attack_non_octal.h"
 
-void attack_non_octal(const char *output_filename, int index) {
+bool attack_non_octal(const char *output_filename, int index) {
+    bool is_header_tested = true;
+
     tar_archive archive;
     init_tar_archive(&archive);
 
@@ -40,7 +42,9 @@ void attack_non_octal(const char *output_filename, int index) {
     case FIELD_UID:
         snprintf(header.uid, sizeof(header.uid), "%07d", 9);
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
     default:
+        is_header_tested = false;
         break;
     }
 
@@ -48,4 +52,6 @@ void attack_non_octal(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return is_header_tested;
 }

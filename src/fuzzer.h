@@ -1,13 +1,15 @@
 #ifndef FUZZER_H
 #define FUZZER_H
 
+#include <stdbool.h>
+
 /**
  * Function pointer type for an attack function.
  * @param output_filename The name of the output file to generate.
  * @param status The current index of the command.
- * @return void
+ * @return True if a header has been tested, false otherwise.
  */
-typedef void (*attack_function)(const char *output_filename, int status);
+typedef bool (*attack_function)(const char *output_filename, int status);
 
 /**
  * Execute the command with the given executable and TAR filename.

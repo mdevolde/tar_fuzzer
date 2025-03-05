@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_recursive_symlink.h"
 
-void attack_recursive_symlink(const char *output_filename, int index) {
+bool attack_recursive_symlink(const char *output_filename, int index) {
     (void)index;
     tar_archive archive;
     init_tar_archive(&archive);
@@ -21,4 +21,6 @@ void attack_recursive_symlink(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return true;
 }

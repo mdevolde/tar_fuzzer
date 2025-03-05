@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_multiple_files.h"
 
-void attack_multiple_files(const char *output_filename, int index) {
+bool attack_multiple_files(const char *output_filename, int index) {
     (void)index;
 
     tar_archive archive;
@@ -48,4 +48,6 @@ void attack_multiple_files(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return true;
 }
