@@ -89,6 +89,9 @@ int execute_command(const char *executable, const char *tar_filename) {
 void execute_fuzzer(const char *executable) {
     ensure_result_dir();
 
+    // Clean up result directory
+    system("rm -f result/*");
+
     attack_function attacks[] = {
         attack_wrong_checksum,
         attack_name_special,
@@ -172,7 +175,7 @@ void execute_fuzzer(const char *executable) {
     }
 
     // Clean up
-    system("rm -f *.txt");
+    system("find . -type f ! -name '*.tar' ! -name '*.c' ! -name '*.h' ! -name 'Makefile' ! -name 'README.md' ! -name 'fuzzer' ! -name 'fuzzer_test' ! -name 'extractor*' -delete");
     printf("-------------------------------\n");
     printf("Total crashes: %d\n", total_crashes);
     printf("-------------------------------\n");
