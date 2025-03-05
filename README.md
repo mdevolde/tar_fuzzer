@@ -30,3 +30,15 @@ sed -i 's/\r$//' fichier.txt
 ```
 
 **Warning**: The fuzzer will delete all `.tar` files in the current directory.
+
+## Testing
+
+To test the fuzzer, you can run the following command:
+
+```bash
+./fuzzer_test
+```
+
+It will test the fuzzer with a fake extractor that will crash in all cases to ensure that all fuzzer functionalities are working correctly.
+
+**Warning**: The fuzzer will delete all `.tar` files in the current directory.
