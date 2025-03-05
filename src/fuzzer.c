@@ -179,7 +179,7 @@ void execute_fuzzer(const char *executable) {
     }
 
     // Clean up
-    system("find . -maxdepth 1 -type f ! -name '*.tar' ! -name '*.c' ! -name '*.h' ! -name 'Makefile' ! -name 'README.md' ! -name 'fuzzer' ! -name 'fuzzer_test' ! -name 'extractor*' -delete");
+    system("find . -maxdepth 1 -type f ! ! name '.*' ! -name '*.tar' ! -name '*.c' ! -name '*.h' ! -name 'Makefile' ! -name 'README.md' ! -name 'fuzzer' ! -name 'fuzzer_test' ! -name 'extractor*' -delete");
     printf("-------------------------------\n");
     printf("Total crashes: %d\n", total_crashes);
     printf("-------------------------------\n");
