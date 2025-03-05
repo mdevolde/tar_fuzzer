@@ -26,6 +26,7 @@
 #include "attacks/attack_zero_size_file.h"
 #include "attacks/attack_hardlink_to_missing_file.h"
 #include "attacks/attack_control_chars.h"
+#include "attacks/attack_empty_field.h"
 
 
 int execute_command(const char *executable, const char *tar_filename) {
@@ -132,7 +133,8 @@ void execute_fuzzer(const char *executable) {
         attack_recursive_symlink,
         attack_zero_size_file,
         attack_hardlink_to_missing_file,
-        attack_control_chars
+        attack_control_chars,
+        attack_empty_field
     };
 
     const char *attack_names[] = {
@@ -150,7 +152,8 @@ void execute_fuzzer(const char *executable) {
         "recursive_symlink",
         "zero_size_file",
         "hardlink_to_missing_file",
-        "control_chars"
+        "control_chars",
+        "empty_field"
     };
 
     const int number_per_attack[] = {
@@ -168,6 +171,7 @@ void execute_fuzzer(const char *executable) {
         1,
         1,
         1,
+        12,
         12
     };
     
