@@ -151,17 +151,17 @@ void execute_fuzzer(const char *executable) {
     };
 
     const int number_per_attack[] = {
-        11,
+        12,
         1,
         1,
         1,
         1,
-        11,
-        11,
-        11,
-        11,
-        11,
-        11,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
         1,
         1,
         1

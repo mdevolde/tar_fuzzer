@@ -18,6 +18,7 @@ const char *field_to_string(uint8_t index) {
         case 9: return "FIELD_UNAME";
         case 10: return "FIELD_GNAME";
         case 11: return "FIELD_CHKSUM";
+        case 12: return "FIELD_LINKNAME";
         default: return "UNKNOWN";
     }
 } 

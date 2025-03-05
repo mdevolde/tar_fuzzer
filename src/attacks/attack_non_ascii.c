@@ -54,6 +54,31 @@ void attack_non_ascii(const char *output_filename, int index) {
         header.typeflag = '\x7F';
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
+    case FIELD_LINKNAME:
+        init_tar_header(&header, "linkname_test.txt", 13);
+        snprintf(header.linkname, sizeof(header.linkname), "%s", not_ascii);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_MAGIC:
+        init_tar_header(&header, "magic_test.txt", 13);
+        snprintf(header.magic, sizeof(header.magic), "%s", not_ascii);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_VERSION:
+        init_tar_header(&header, "version_test.txt", 13);
+        snprintf(header.version, sizeof(header.version), "%s", not_ascii);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_UNAME:
+        init_tar_header(&header, "uname_test.txt", 13);
+        snprintf(header.uname, sizeof(header.uname), "%s", not_ascii);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_GNAME:
+        init_tar_header(&header, "gname_test.txt", 13);
+        snprintf(header.gname, sizeof(header.gname), "%s", not_ascii);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
     default:
         break;
     }

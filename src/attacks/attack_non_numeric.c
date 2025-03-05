@@ -62,6 +62,13 @@ void attack_non_numeric(const char *output_filename, int index) {
         memset(header.chksum, 0, sizeof(header.chksum));
         memcpy(header.chksum, non_numeric_string_slice, slice_size);
         break;
+    case FIELD_VERSION:
+        slice_size = sizeof(header.version) - 1;
+        non_numeric_string_slice = non_numeric_string;
+        memset(header.version, 0, sizeof(header.version));
+        memcpy(header.version, non_numeric_string_slice, slice_size);
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
     default:
         break;
     }

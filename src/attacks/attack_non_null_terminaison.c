@@ -57,6 +57,18 @@ void attack_non_null_terminaison(const char *output_filename, int index) {
         memset(header.gname, ' ', sizeof(header.gname));
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break; 
+    case FIELD_VERSION:
+        memset(header.version, ' ', sizeof(header.version));
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_TYPEFLAG:
+        header.typeflag = ' ';
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
+    case FIELD_LINKNAME:
+        memset(header.linkname, ' ', sizeof(header.linkname));
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
+        break;
     default:
         break;
     }

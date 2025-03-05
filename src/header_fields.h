@@ -17,6 +17,7 @@ typedef enum {
     FIELD_UNAME,
     FIELD_GNAME,
     FIELD_CHKSUM,
+    FIELD_LINKNAME,
     NUM_FIELDS,
 } TargetField;
 
