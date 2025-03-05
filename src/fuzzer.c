@@ -178,6 +178,7 @@ void execute_fuzzer(const char *executable) {
 
     for (size_t i = 0; i < attack_count; i++) {
         int status = 0;
+        int8_t skip_attack = 0;
         for (int j = 0; j < number_per_attack[i]; j++) {    
             char tar_filename[256];
             if (number_per_attack[i] == 1)
@@ -186,14 +187,17 @@ void execute_fuzzer(const char *executable) {
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attack_names[i], field_to_string(j));
 
             // Execute the attack, e.g.
-            attacks[i](tar_filename, j);
+            bool is_header_tested = attacks[i](tar_filename, j);
+            if (!is_header_tested) {
+                skip_attack++;
+            } 
 
             // Execute the command
             int current_status = execute_command(executable, tar_filename);
             status += current_status;
             total_crashes += current_status;
         }
-        printf("Attack %s: %d/%d crashes\n", attack_names[i], status, number_per_attack[i]);
+        printf("Attack %s: %d/%d crashes\n", attack_names[i], status, number_per_attack[i] - skip_attack);
 
         // Check if there files with the attack name in and if so, print them with comma separation
         char files[100][256];

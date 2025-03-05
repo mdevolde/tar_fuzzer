@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_unaligned_header.h"
 
-void attack_unaligned_header(const char *output_filename, int index) {
+bool attack_unaligned_header(const char *output_filename, int index) {
     (void) index;
     tar_archive archive;
     init_tar_archive(&archive);
@@ -24,4 +24,6 @@ void attack_unaligned_header(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return true;
 }

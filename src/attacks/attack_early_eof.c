@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_early_eof.h"
 
-void attack_early_eof(const char *output_filename, int index) {
+bool attack_early_eof(const char *output_filename, int index) {
     (void)index;
     tar_archive archive;
     init_tar_archive(&archive);
@@ -18,4 +18,6 @@ void attack_early_eof(const char *output_filename, int index) {
     // Intentionally do not add the two empty blocks at the end of the archive
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return true;
 }

@@ -7,7 +7,9 @@
 #include "../header_fields.h"
 #include "attack_extreme.h"
 
-void attack_extreme(const char *output_filename, int index) {
+bool attack_extreme(const char *output_filename, int index) {
+    bool is_header_tested = true;
+
     tar_archive archive;
     init_tar_archive(&archive);
 
@@ -41,6 +43,7 @@ void attack_extreme(const char *output_filename, int index) {
         snprintf(header.mtime, sizeof(header.mtime), "%011lo", corrupt_value);
         break;
     default:
+        is_header_tested = false;
         break;
     }
 
@@ -52,4 +55,6 @@ void attack_extreme(const char *output_filename, int index) {
     finalize_tar_archive(&archive);
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
+
+    return is_header_tested;
 }
