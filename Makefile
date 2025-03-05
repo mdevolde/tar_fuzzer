@@ -1,11 +1,18 @@
 # Compiler and options
 CC = gcc
-# Debugging flags (uncomment for debugging)
-# CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0 -MMD -MP
-# LDFLAGS = -ggdb
-# Optimized flags (uncomment for optimized build)
-CFLAGS = -Wall -Wextra -std=c17 -Isrc -O2 -march=native -flto -pipe -MMD -MP
-LDFLAGS = -O2 -flto -march=native
+
+# Default mode (can be overridden by `make MODE=debug`)
+MODE ?= release
+
+# Compiler options based on mode
+ifeq ($(MODE),debug)
+    CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0 -MMD -MP
+    LDFLAGS = -ggdb
+else ifeq ($(MODE),release)
+    CFLAGS = -Wall -Wextra -std=c17 -Isrc -O2 -march=native -flto -pipe -MMD -MP
+    LDFLAGS = -O2 -flto -march=native
+endif
+
 
 # Names of executables and object files
 FUZZER = fuzzer
