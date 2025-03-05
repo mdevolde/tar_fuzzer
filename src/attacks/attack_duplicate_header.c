@@ -6,6 +6,7 @@
 #include "attack_duplicate_header.h"
 
 void attack_duplicate_header(const char *output_filename, int index) {
+    (void)index;
     tar_archive archive;
     init_tar_archive(&archive);
 
@@ -14,9 +15,7 @@ void attack_duplicate_header(const char *output_filename, int index) {
 
     add_tar_header(&archive, &header);
     
-
-    int num_duplicates = (index % 5) + 2;
-    for (int i = 0; i < num_duplicates; i++) {
+    for (int i = 0; i < 3; i++) {
         add_tar_header(&archive, &header);
     }
     

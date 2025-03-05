@@ -10,16 +10,10 @@
 #include "fuzzer.h"
 #include "tar_archive.h"
 
-#include "attacks/attack_wrong_checksum.h"
-#include "attacks/attack_name_special.h"
-#include "attacks/attack_mtime_extreme.h"
-#include "attacks/attack_size_mismatch.h"
-#include "attacks/attack_linkname_invalid.h"
-#include "attacks/attack_prefix_invalid.h"
+#include "attacks/attack_extreme.h"
 #include "attacks/attack_unaligned_header.h"
 #include "attacks/attack_early_eof.h"
 #include "attacks/attack_duplicate_header.h"
-#include "attacks/attack_random_header.h"
 #include "attacks/attack_multiple_files.h"
 #include "attacks/attack_non_numeric.h"
 #include "attacks/attack_non_ascii.h"
@@ -29,7 +23,6 @@
 #include "attacks/attack_negative_value.h"
 #include "attacks/attack_recursive_symlink.h"
 #include "attacks/attack_zero_size_file.h"
-#include "attacks/attack_extra_padding.h"
 #include "attacks/attack_hardlink_to_missing_file.h"
 
 
@@ -123,16 +116,10 @@ void execute_fuzzer(const char *executable) {
     system("rm -f *.tar");
 
     attack_function attacks[] = {
-        attack_wrong_checksum,
-        attack_name_special,
-        attack_mtime_extreme,
-        attack_size_mismatch,
-        attack_linkname_invalid,
-        attack_prefix_invalid,
+        attack_extreme,
         attack_unaligned_header,
         attack_early_eof,
         attack_duplicate_header,
-        attack_random_header,
         attack_multiple_files,
         attack_non_numeric,
         attack_non_ascii,
@@ -142,21 +129,14 @@ void execute_fuzzer(const char *executable) {
         attack_negative_value,
         attack_recursive_symlink,
         attack_zero_size_file,
-        attack_extra_padding,
         attack_hardlink_to_missing_file
     };
 
     const char *attack_names[] = {
-        "wrong_checksum",
-        "name_special",
-        "mtime_extreme",
-        "size_mismatch",
-        "linkname_invalid",
-        "prefix_invalid",
+        "extreme",
         "unaligned_header",
         "early_eof",
         "duplicate_header",
-        "random_header",
         "multiple_files",
         "non_numeric",
         "non_ascii",
@@ -166,21 +146,14 @@ void execute_fuzzer(const char *executable) {
         "negative_value",
         "recursive_symlink",
         "zero_size_file",
-        "extra_padding",
         "hardlink_to_missing_file"
     };
 
     const int number_per_attack[] = {
-        10,
-        8,
-        8,
-        2,
-        6,
         5,
         1,
         1,
-        5,
-        5,
+        1,
         1,
         6,
         8,
@@ -188,7 +161,6 @@ void execute_fuzzer(const char *executable) {
         10,
         10,
         5,
-        1,
         1,
         1,
         1
