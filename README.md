@@ -22,4 +22,11 @@ To use the fuzzer, you need to provide a target script that will be executed wit
 ./fuzzer ./extractor
 ```
 
-**Warning**: The fuzzer will delete all `.tar` files in the current directory and delete all files in the current directory (except Makefile, README.md, .c files, .h files and files starting with `extractor`)  before starting the fuzzing process. So make sure that your extractor starts with `extractor` and that you don't have any important files in the current directory.
+Don't forget that the extractor has to be executable and with linux line endings. If you are not sure, you can run the following commands:
+
+```bash
+chmod +x ./extractor
+sed -i 's/\r$//' fichier.txt
+```
+
+**Warning**: The fuzzer will delete all `.tar` files in the current directory.
