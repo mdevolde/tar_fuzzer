@@ -1,7 +1,11 @@
 # Compiler and options
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0 -MMD -MP
-LDFLAGS = -ggdb
+# Debugging flags (uncomment for debugging)
+# CFLAGS = -Wall -Wextra -std=c17 -Isrc -ggdb -O0 -MMD -MP
+# LDFLAGS = -ggdb
+# Optimized flags (uncomment for optimized build)
+CFLAGS = -Wall -Wextra -std=c17 -Isrc -O2 -march=native -flto -pipe -MMD -MP
+LDFLAGS = -O2 -flto -march=native
 
 # Names of executables and object files
 FUZZER = fuzzer
