@@ -52,7 +52,7 @@ void add_tar_data_block(tar_archive *archive, const uint8_t *data, size_t size) 
 
 void finalize_tar_archive(tar_archive *archive) {
     uint8_t zero_block[TAR_BLOCK_SIZE] = {0};
-    for (int i = 0; i < 2; i++) {
+    for (uint8_t i = 0; i < 2; i++) {
         add_tar_data_block(archive, zero_block, TAR_BLOCK_SIZE);
     }
 }

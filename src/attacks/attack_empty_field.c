@@ -6,7 +6,7 @@
 #include "../header_fields.h"
 #include "attack_empty_field.h"
 
-bool attack_empty_field(const char *output_filename, int index) {
+bool attack_empty_field(const char *output_filename, uint8_t index) {
     bool is_header_tested = true;
     tar_archive archive;
     init_tar_archive(&archive);

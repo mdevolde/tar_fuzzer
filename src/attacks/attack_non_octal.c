@@ -6,7 +6,7 @@
 #include "../header_fields.h"
 #include "./attack_non_octal.h"
 
-bool attack_non_octal(const char *output_filename, int index) {
+bool attack_non_octal(const char *output_filename, uint8_t index) {
     bool is_header_tested = true;
 
     tar_archive archive;

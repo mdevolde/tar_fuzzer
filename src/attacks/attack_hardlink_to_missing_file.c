@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_hardlink_to_missing_file.h"
 
-bool attack_hardlink_to_missing_file(const char *output_filename, int index) {
+bool attack_hardlink_to_missing_file(const char *output_filename, uint8_t index) {
     (void)index;
     tar_archive archive;
     init_tar_archive(&archive);

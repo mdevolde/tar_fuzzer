@@ -6,7 +6,7 @@
 #include "../header_fields.h" 
 #include "attack_negative_value.h"
 
-bool attack_negative_value(const char *output_filename, int index) {
+bool attack_negative_value(const char *output_filename, uint8_t index) {
     bool is_header_tested = true;
 
     tar_archive archive;

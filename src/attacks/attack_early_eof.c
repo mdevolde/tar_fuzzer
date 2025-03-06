@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_early_eof.h"
 
-bool attack_early_eof(const char *output_filename, int index) {
+bool attack_early_eof(const char *output_filename, uint8_t index) {
     (void)index;
     tar_archive archive;
     init_tar_archive(&archive);

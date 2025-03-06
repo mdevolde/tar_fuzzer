@@ -31,7 +31,7 @@
 
 // Array of attacks to execute, with their name, function and if they need to be executed multiple times
 // This array can be extended with new attacks
-const attack_t attacks[] = {
+static const attack_t attacks[] = {
     {"extreme", attack_extreme, true},
     {"unaligned_header", attack_unaligned_header, false},
     {"early_eof", attack_early_eof, false},
@@ -50,7 +50,13 @@ const attack_t attacks[] = {
     {"empty_field", attack_empty_field, true}
 };
 
-int execute_command(const char *executable, const char *tar_filename) {
+/**
+ * Execute the command with the given executable and TAR filename.
+ * @param executable The name of the executable to test.
+ * @param tar_filename The name of the TAR file to use as input.
+ * @return u_int8_t The exit status of the command.
+ */
+static uint8_t execute_command(const char *executable, const char *tar_filename) {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
         perror("Error during pipe creation");
@@ -58,7 +64,7 @@ int execute_command(const char *executable, const char *tar_filename) {
     }
 
     char files_before[100][256];
-    int count_before = list_files(files_before, 100);
+    uint8_t count_before = list_files(files_before, 100);
     qsort(files_before, count_before, 256, compare_filenames);
 
     pid_t pid = fork();
@@ -84,10 +90,10 @@ int execute_command(const char *executable, const char *tar_filename) {
         close(pipefd[0]);
 
         char files_after[100][256];
-        int count_after = list_files(files_after, 100);
+        uint8_t count_after = list_files(files_after, 100);
         qsort(files_after, count_after, 256, compare_filenames);
 
-        for (int i = 0; i < count_after; i++) {
+        for (uint8_t i = 0; i < count_after; i++) {
             if (bsearch(files_after[i], files_before, count_before, 256, compare_filenames) == NULL) {
                 if (strstr(files_after[i], ".tar") == NULL) {
                     remove(files_after[i]);
@@ -111,12 +117,12 @@ int execute_command(const char *executable, const char *tar_filename) {
     }
 }
 
-int list_files(char filenames[][256], int max_files) {
+uint8_t list_files(char filenames[][256], uint8_t max_files) {
     DIR *dir = opendir(".");
     if (!dir) return 0;
 
     struct dirent *entry;
-    int count = 0;
+    uint8_t count = 0; // The maximum number of files is 255 because of the type of this variable
 
     while ((entry = readdir(dir)) != NULL && count < max_files) {
         struct stat path_stat;
@@ -139,16 +145,16 @@ void execute_fuzzer(const char *executable) {
     // Clean up the directory
     system("rm -f *.tar");
     
-    int total_crashes = 0;
+    uint16_t total_crashes = 0; // The maximum number of crashes is 65535 because of the type of this variable
     size_t attack_count = sizeof(attacks) / sizeof(attacks[0]);
 
     printf("-------------------------------\n");
 
     for (size_t i = 0; i < attack_count; i++) {
-        int status = 0;
-        int8_t number_of_attacks = attacks[i].need_multiple_exec ? 12 : 1;
-        int8_t skip_attack = 0;
-        for (int j = 0; j < number_of_attacks; j++) {    
+        uint8_t status = 0;
+        uint8_t number_of_attacks = attacks[i].need_multiple_exec ? 12 : 1;
+        uint8_t skip_attack = 0;
+        for (uint8_t j = 0; j < number_of_attacks; j++) {    
             char tar_filename[256];
             if (!attacks[i].need_multiple_exec)
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s.tar", attacks[i].name);
@@ -162,7 +168,7 @@ void execute_fuzzer(const char *executable) {
             } 
 
             // Execute the command
-            int current_status = execute_command(executable, tar_filename);
+            uint8_t current_status = execute_command(executable, tar_filename);
             status += current_status;
             total_crashes += current_status;
         }
@@ -175,10 +181,10 @@ void execute_fuzzer(const char *executable) {
 
         // Check if there files with the attack name in and if so, print them with comma separation
         char files[100][256];
-        int count = list_files(files, 100);
-        int found = 0;
+        uint8_t count = list_files(files, 100);
+        uint8_t found = 0;
 
-        for (int k = 0; k < count; k++) {
+        for (uint8_t k = 0; k < count; k++) {
             if (strstr(files[k], attacks[i].name) != NULL) {
                 if (found > 0) printf(", ");
                 printf("%s", files[k]);

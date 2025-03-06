@@ -5,7 +5,7 @@
 #include "../tar_header.h"
 #include "attack_multiple_files.h"
 
-bool attack_multiple_files(const char *output_filename, int index) {
+bool attack_multiple_files(const char *output_filename, uint8_t index) {
     (void)index;
 
     tar_archive archive;
@@ -21,12 +21,12 @@ bool attack_multiple_files(const char *output_filename, int index) {
         "overflow_name_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt"
     };
     
-    const int sizes[] = {50, 100, 2048, 512, 0, 1024, 4096};
+    const uint16_t sizes[] = {50, 100, 2048, 512, 0, 1024, 4096};
 
-    int num_files = sizeof(filenames) / sizeof(filenames[0]);
+    uint8_t num_files = sizeof(filenames) / sizeof(filenames[0]);
 
     // Add multiple files to the archive
-    for (int i = 0; i < num_files; i++) {
+    for (uint8_t i = 0; i < num_files; i++) {
         tar_header header;
         init_tar_header(&header, filenames[i], sizes[i]);
 

@@ -6,7 +6,7 @@
 #include "../header_fields.h"
 #include "attack_control_chars.h"
 
-bool attack_control_chars(const char *output_filename, int index) {
+bool attack_control_chars(const char *output_filename, uint8_t index) {
     bool is_header_tested = true;
     tar_archive archive;
     init_tar_archive(&archive);
