@@ -11,4 +11,11 @@
  */
 bool attack_bad_combo_typeflag_linkname(const char *output_filename, uint8_t index);
 
+/** 
+ * Return the tried combination of typeflag and linkname from the given index.
+ * @param index The index of the attack to perform.
+ * @return char* The combination of typeflag and linkname.
+ */
+char *combo_from_index(uint8_t index);
+
 #endif /* ATTACK_BAD_COMBO_TYPEFLAG_LINKNAME_H */

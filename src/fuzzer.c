@@ -34,24 +34,24 @@
 // Array of attacks to execute, with their name, function and if they need to be executed multiple times
 // This array can be extended with new attacks
 static const attack_t attacks[] = {
-    {"extreme", attack_extreme, true},
-    {"unaligned_header", attack_unaligned_header, false},
-    {"early_eof", attack_early_eof, false},
-    {"duplicate_header", attack_duplicate_header, false},
-    {"multiple_files", attack_multiple_files, false},
-    {"non_numeric", attack_non_numeric, true},
-    {"non_ascii", attack_non_ascii, true},
-    {"non_octal", attack_non_octal, true},
-    {"non_null_terminaison", attack_non_null_terminaison, true},
-    {"wrong_size", attack_wrong_size, true},
-    {"negative_value", attack_negative_value, true},
-    {"recursive_symlink", attack_recursive_symlink, false},
-    {"zero_size_file", attack_zero_size_file, false},
-    {"hardlink_to_missing_file", attack_hardlink_to_missing_file, false},
-    {"control_chars", attack_control_chars, true},
-    {"empty_field", attack_empty_field, true},
-    {"starting_non_null", attack_starting_non_null, true},
-    {"bad_combo_typeflag_linkname", attack_bad_combo_typeflag_linkname, true}
+    {"extreme", attack_extreme, MULTIPLE_EXEC_FIELD},
+    {"unaligned_header", attack_unaligned_header, SIMPLE_EXEC},
+    {"early_eof", attack_early_eof, SIMPLE_EXEC},
+    {"duplicate_header", attack_duplicate_header, SIMPLE_EXEC},
+    {"multiple_files", attack_multiple_files, SIMPLE_EXEC},
+    {"non_numeric", attack_non_numeric, MULTIPLE_EXEC_FIELD},
+    {"non_ascii", attack_non_ascii, MULTIPLE_EXEC_FIELD},
+    {"non_octal", attack_non_octal, MULTIPLE_EXEC_FIELD},
+    {"non_null_terminaison", attack_non_null_terminaison, MULTIPLE_EXEC_FIELD},
+    {"wrong_size", attack_wrong_size, MULTIPLE_EXEC_FIELD},
+    {"negative_value", attack_negative_value, MULTIPLE_EXEC_FIELD},
+    {"recursive_symlink", attack_recursive_symlink, SIMPLE_EXEC},
+    {"zero_size_file", attack_zero_size_file, SIMPLE_EXEC},
+    {"hardlink_to_missing_file", attack_hardlink_to_missing_file, SIMPLE_EXEC},
+    {"control_chars", attack_control_chars, MULTIPLE_EXEC_FIELD},
+    {"empty_field", attack_empty_field, MULTIPLE_EXEC_FIELD},
+    {"starting_non_null", attack_starting_non_null, MULTIPLE_EXEC_FIELD},
+    {"bad_combo_typeflag_linkname", attack_bad_combo_typeflag_linkname, MULTIPLE_EXEC_COMBINATIONS}
 };
 
 /**
@@ -156,14 +156,16 @@ void execute_fuzzer(const char *executable) {
 
     for (size_t i = 0; i < attack_count; i++) {
         uint8_t status = 0;
-        uint8_t number_of_attacks = attacks[i].need_multiple_exec ? 12 : 1;
+        uint8_t number_of_attacks = attacks[i].type_of_exec == SIMPLE_EXEC ? 1 : 12;
         uint8_t skip_attack = 0;
         for (uint8_t j = 0; j < number_of_attacks; j++) {    
             char tar_filename[256];
-            if (!attacks[i].need_multiple_exec)
+            if (attacks[i].type_of_exec == SIMPLE_EXEC)
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s.tar", attacks[i].name);
-            else
+            else if (attacks[i].type_of_exec == MULTIPLE_EXEC_FIELD)
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attacks[i].name, field_to_string(j));
+            else if (attacks[i].type_of_exec == MULTIPLE_EXEC_COMBINATIONS)
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s_WITH_%s.tar", attacks[i].name, combo_from_index(j));
 
             // Execute the attack, e.g.
             bool is_header_tested = attacks[i].function(tar_filename, j);

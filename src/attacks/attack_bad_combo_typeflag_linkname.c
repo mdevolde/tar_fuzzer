@@ -66,3 +66,29 @@ bool attack_bad_combo_typeflag_linkname(const char *output_filename, uint8_t ind
 
     return is_header_tested;
 }
+
+char *combo_from_index(uint8_t index) {
+    switch (index)
+    {
+    case 0:
+        return "REPERTORY_LINKNAME";
+    case 1:
+        return "REGFILE_LINKNAME";
+    case 2:
+        return "HARDLINK_EMPTY";
+    case 3:
+        return "SYMLINK_EMPTY";
+    case 4:
+        return "CHARSPECIAL_LINKNAME";
+    case 5:
+        return "BLOCKSPECIAL_LINKNAME";
+    case 6:
+        return "FIFO_LINKNAME";
+    case 7:
+        return "INVALID_EMPTY";
+    case 8:
+        return "INVALID_LINKNAME";
+    default:
+        return "UNKNOWN";
+    }
+}

@@ -12,11 +12,19 @@
  */
 typedef bool (*attack_function)(const char *output_filename, uint8_t index);
 
+/* Enumeration to define the type of execution. */
+typedef enum {
+    SIMPLE_EXEC,                // Execute the attack once
+    MULTIPLE_EXEC_FIELD,        // Execute the attack multiple times with different fields
+    MULTIPLE_EXEC_COMBINATIONS  // Execute the attack multiple times with different combinations in the same field
+
+} execution_type;
+
 /* Structure to store information about an attack. */
 typedef struct {
-    const char *name;          // Name of the attack
-    attack_function function;  // Pointer to the attack function
-    bool need_multiple_exec;   // If the attack needs to be executed multiple times
+    const char *name;            // Name of the attack
+    attack_function function;    // Pointer to the attack function
+    execution_type type_of_exec; // Type of execution
 } attack_t;
 
 /**
