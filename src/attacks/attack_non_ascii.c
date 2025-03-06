@@ -68,7 +68,8 @@ bool attack_non_ascii(const char *output_filename, uint8_t index) {
         break;
     case FIELD_VERSION:
         init_tar_header(&header, "version_test.txt", 13);
-        snprintf(header.version, sizeof(header.version), "%s", not_ascii);
+        strncpy(header.version, not_ascii, sizeof(header.version));
+        header.version[sizeof(header.version) - 1] = '\0';
         edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_UNAME:

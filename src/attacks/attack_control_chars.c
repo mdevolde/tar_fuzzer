@@ -26,10 +26,12 @@ bool attack_control_chars(const char *output_filename, uint8_t index) {
         snprintf(header.name, sizeof(header.name), "%s", injected_value);
         break;
     case FIELD_UNAME:
-        snprintf(header.uname, sizeof(header.uname), "%s", injected_value);
+        strncpy(header.uname, injected_value, sizeof(header.uname));
+        header.uname[sizeof(header.uname) - 1] = '\0';
         break;
     case FIELD_GNAME:
-        snprintf(header.gname, sizeof(header.gname), "%s", injected_value);
+        strncpy(header.gname, injected_value, sizeof(header.gname));
+        header.gname[sizeof(header.gname) - 1] = '\0';
         break;
     default:
         is_header_tested = false;
