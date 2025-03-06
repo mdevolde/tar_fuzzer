@@ -11,6 +11,13 @@
  */
 typedef bool (*attack_function)(const char *output_filename, int status);
 
+/* Structure to store information about an attack. */
+typedef struct {
+    const char *name;          // Name of the attack
+    attack_function function;  // Pointer to the attack function
+    bool need_multiple_exec;   // If the attack needs to be executed multiple times
+} attack_t;
+
 /**
  * Execute the command with the given executable and TAR filename.
  * @param executable The name of the executable to test.

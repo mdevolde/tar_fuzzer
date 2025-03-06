@@ -29,6 +29,27 @@
 #include "attacks/attack_empty_field.h"
 
 
+// Array of attacks to execute, with their name, function and if they need to be executed multiple times
+// This array can be extended with new attacks
+const attack_t attacks[] = {
+    {"extreme", attack_extreme, true},
+    {"unaligned_header", attack_unaligned_header, false},
+    {"early_eof", attack_early_eof, false},
+    {"duplicate_header", attack_duplicate_header, false},
+    {"multiple_files", attack_multiple_files, false},
+    {"non_numeric", attack_non_numeric, true},
+    {"non_ascii", attack_non_ascii, true},
+    {"non_octal", attack_non_octal, true},
+    {"non_null_terminaison", attack_non_null_terminaison, true},
+    {"wrong_size", attack_wrong_size, true},
+    {"negative_value", attack_negative_value, true},
+    {"recursive_symlink", attack_recursive_symlink, false},
+    {"zero_size_file", attack_zero_size_file, false},
+    {"hardlink_to_missing_file", attack_hardlink_to_missing_file, false},
+    {"control_chars", attack_control_chars, true},
+    {"empty_field", attack_empty_field, true}
+};
+
 int execute_command(const char *executable, const char *tar_filename) {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
@@ -117,63 +138,6 @@ int compare_filenames(const void *a, const void *b) {
 void execute_fuzzer(const char *executable) {
     // Clean up the directory
     system("rm -f *.tar");
-
-    attack_function attacks[] = {
-        attack_extreme,
-        attack_unaligned_header,
-        attack_early_eof,
-        attack_duplicate_header,
-        attack_multiple_files,
-        attack_non_numeric,
-        attack_non_ascii,
-        attack_non_octal,
-        attack_non_null_terminaison,
-        attack_wrong_size,
-        attack_negative_value,
-        attack_recursive_symlink,
-        attack_zero_size_file,
-        attack_hardlink_to_missing_file,
-        attack_control_chars,
-        attack_empty_field
-    };
-
-    const char *attack_names[] = {
-        "extreme",
-        "unaligned_header",
-        "early_eof",
-        "duplicate_header",
-        "multiple_files",
-        "non_numeric",
-        "non_ascii",
-        "non_octal",
-        "non_null_terminaison",
-        "wrong_size",
-        "negative_value",
-        "recursive_symlink",
-        "zero_size_file",
-        "hardlink_to_missing_file",
-        "control_chars",
-        "empty_field"
-    };
-
-    const int number_per_attack[] = {
-        12,
-        1,
-        1,
-        1,
-        1,
-        12,
-        12,
-        12,
-        12,
-        12,
-        12,
-        1,
-        1,
-        1,
-        12,
-        12
-    };
     
     int total_crashes = 0;
     size_t attack_count = sizeof(attacks) / sizeof(attacks[0]);
@@ -182,16 +146,17 @@ void execute_fuzzer(const char *executable) {
 
     for (size_t i = 0; i < attack_count; i++) {
         int status = 0;
+        int8_t number_of_attacks = attacks[i].need_multiple_exec ? 12 : 1;
         int8_t skip_attack = 0;
-        for (int j = 0; j < number_per_attack[i]; j++) {    
+        for (int j = 0; j < number_of_attacks; j++) {    
             char tar_filename[256];
-            if (number_per_attack[i] == 1)
-                snprintf(tar_filename, sizeof(tar_filename), "test_%s.tar", attack_names[i]);
+            if (!attacks[i].need_multiple_exec)
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s.tar", attacks[i].name);
             else
-                snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attack_names[i], field_to_string(j));
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attacks[i].name, field_to_string(j));
 
             // Execute the attack, e.g.
-            bool is_header_tested = attacks[i](tar_filename, j);
+            bool is_header_tested = attacks[i].function(tar_filename, j);
             if (!is_header_tested) {
                 skip_attack++;
             } 
@@ -203,10 +168,10 @@ void execute_fuzzer(const char *executable) {
         }
         
         // For testing case when the attack always works even when it's a skip attack
-        if (status > number_per_attack[i] - skip_attack) {
-            status = number_per_attack[i] - skip_attack;
+        if (status > number_of_attacks - skip_attack) {
+            status = number_of_attacks - skip_attack;
         }
-        printf("Attack %s: %d/%d crashes\n", attack_names[i], status, number_per_attack[i] - skip_attack);
+        printf("Attack %s: %d/%d crashes\n", attacks[i].name, status, number_of_attacks - skip_attack);
 
         // Check if there files with the attack name in and if so, print them with comma separation
         char files[100][256];
@@ -214,7 +179,7 @@ void execute_fuzzer(const char *executable) {
         int found = 0;
 
         for (int k = 0; k < count; k++) {
-            if (strstr(files[k], attack_names[i]) != NULL) {
+            if (strstr(files[k], attacks[i].name) != NULL) {
                 if (found > 0) printf(", ");
                 printf("%s", files[k]);
                 found++;
