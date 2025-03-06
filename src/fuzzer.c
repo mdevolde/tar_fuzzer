@@ -151,6 +151,7 @@ void execute_fuzzer(const char *executable) {
     
     uint16_t total_crashes = 0; // The maximum number of crashes is 65535 because of the type of this variable
     size_t attack_count = sizeof(attacks) / sizeof(attacks[0]);
+    uint8_t total_attacks = 0;
 
     printf("-------------------------------\n");
 
@@ -185,6 +186,7 @@ void execute_fuzzer(const char *executable) {
         if (status > number_of_attacks - skip_attack) {
             status = number_of_attacks - skip_attack;
         }
+        total_attacks += status;
         printf("Attack %s: %d/%d crashes\n", attacks[i].name, status, number_of_attacks - skip_attack);
 
         // Check if there files with the attack name in and if so, print them with comma separation
@@ -201,6 +203,11 @@ void execute_fuzzer(const char *executable) {
         }
         if (found > 0) printf("\n");
         printf("\n");
+    }
+
+    // For testing case when the total crashes is more than the total attacks because even a skip attack is counted as crash (the exec always crashes)
+    if (total_crashes > total_attacks) {
+        total_crashes = total_attacks;
     }
 
     // Clean up
