@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Executing fuzzer with %s\n", path);
-    execute_fuzzer(path);
 
-    return 0;
+    return execute_fuzzer(path);
 }

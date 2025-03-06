@@ -47,9 +47,9 @@ int compare_filenames(const void *a, const void *b);
 /**
  * Execute the fuzzer with the given executable.
  * @param executable The name of the executable to test.
- * @return void
+ * @return 1 if the fuzzer found crashes, 0 otherwise.
  */
-void execute_fuzzer(const char *executable);
+int execute_fuzzer(const char *executable);
 
 
 #endif /* FUZZER_H */

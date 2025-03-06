@@ -145,7 +145,7 @@ int compare_filenames(const void *a, const void *b) {
     return strcmp((const char *)a, (const char *)b);
 }
 
-void execute_fuzzer(const char *executable) {
+int execute_fuzzer(const char *executable) {
     // Clean up the directory
     system("rm -f *.tar");
     
@@ -214,4 +214,7 @@ void execute_fuzzer(const char *executable) {
     printf("-------------------------------\n");
     printf("Total crashes: %d\n", total_crashes);
     printf("-------------------------------\n");
+
+    // Return 1 if at least one crash was found, 0 otherwise
+    return total_crashes > 0 ? 1 : 0;
 }
