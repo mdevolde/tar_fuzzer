@@ -28,6 +28,7 @@
 #include "attacks/attack_control_chars.h"
 #include "attacks/attack_empty_field.h"
 #include "attacks/attack_starting_non_null.h"
+#include "attacks/attack_bad_combo_typeflag_linkname.h"
 
 
 // Array of attacks to execute, with their name, function and if they need to be executed multiple times
@@ -49,7 +50,8 @@ static const attack_t attacks[] = {
     {"hardlink_to_missing_file", attack_hardlink_to_missing_file, false},
     {"control_chars", attack_control_chars, true},
     {"empty_field", attack_empty_field, true},
-    {"starting_non_null", attack_starting_non_null, true}
+    {"starting_non_null", attack_starting_non_null, true},
+    {"bad_combo_typeflag_linkname", attack_bad_combo_typeflag_linkname, true}
 };
 
 /**
