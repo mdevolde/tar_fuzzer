@@ -13,7 +13,7 @@
 
 #include "attacks/attack_extreme.h"
 #include "attacks/attack_unaligned_header.h"
-#include "attacks/attack_early_eof.h"
+#include "attacks/attack_end_of_file.h"
 #include "attacks/attack_duplicate_header.h"
 #include "attacks/attack_multiple_files.h"
 #include "attacks/attack_non_numeric.h"
@@ -36,7 +36,7 @@
 static const attack_t attacks[] = {
     {"extreme", attack_extreme, MULTIPLE_EXEC_FIELD},
     {"unaligned_header", attack_unaligned_header, SIMPLE_EXEC},
-    {"early_eof", attack_early_eof, SIMPLE_EXEC},
+    {"early_eof", attack_end_of_file, MULTIPLE_EXEC_EOF},
     {"duplicate_header", attack_duplicate_header, SIMPLE_EXEC},
     {"multiple_files", attack_multiple_files, SIMPLE_EXEC},
     {"non_numeric", attack_non_numeric, MULTIPLE_EXEC_FIELD},
@@ -166,6 +166,8 @@ void execute_fuzzer(const char *executable) {
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s_in_%s.tar", attacks[i].name, field_to_string(j));
             else if (attacks[i].type_of_exec == MULTIPLE_EXEC_COMBINATIONS)
                 snprintf(tar_filename, sizeof(tar_filename), "test_%s_WITH_%s.tar", attacks[i].name, combo_from_index(j));
+            else if (attacks[i].type_of_exec == MULTIPLE_EXEC_EOF)
+                snprintf(tar_filename, sizeof(tar_filename), "test_%s_EOF_%s.tar", attacks[i].name, eof_from_index(j));
 
             // Execute the attack, e.g.
             bool is_header_tested = attacks[i].function(tar_filename, j);

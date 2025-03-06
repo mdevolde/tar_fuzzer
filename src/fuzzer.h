@@ -16,7 +16,8 @@ typedef bool (*attack_function)(const char *output_filename, uint8_t index);
 typedef enum {
     SIMPLE_EXEC,                // Execute the attack once
     MULTIPLE_EXEC_FIELD,        // Execute the attack multiple times with different fields
-    MULTIPLE_EXEC_COMBINATIONS  // Execute the attack multiple times with different combinations in the same field
+    MULTIPLE_EXEC_COMBINATIONS, // Execute the attack multiple times with different combinations in the same field
+    MULTIPLE_EXEC_EOF           // Execute the attack multiple times with different EOF
 
 } execution_type;
 

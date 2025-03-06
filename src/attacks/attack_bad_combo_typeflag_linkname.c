@@ -71,23 +71,23 @@ char *combo_from_index(uint8_t index) {
     switch (index)
     {
     case 0:
-        return "REPERTORY_LINKNAME";
+        return "TYPEFLAG_5_LINKNAME_NON_EMPTY";
     case 1:
-        return "REGFILE_LINKNAME";
+        return "TYPEFLAG_0_LINKNAME_NON_EMPTY";
     case 2:
-        return "HARDLINK_EMPTY";
+        return "TYPEFLAG_1_LINKNAME_EMPTY";
     case 3:
-        return "SYMLINK_EMPTY";
+        return "TYPEFLAG_2_LINKNAME_EMPTY";
     case 4:
-        return "CHARSPECIAL_LINKNAME";
+        return "TYPEFLAG_3_LINKNAME_NON_EMPTY";
     case 5:
-        return "BLOCKSPECIAL_LINKNAME";
+        return "TYPEFLAG_4_LINKNAME_NON_EMPTY";
     case 6:
-        return "FIFO_LINKNAME";
+        return "TYPEFLAG_6_LINKNAME_NON_EMPTY";
     case 7:
-        return "INVALID_EMPTY";
+        return "INVALID_TYPEFLAG_LINKNAME_EMPTY";
     case 8:
-        return "INVALID_LINKNAME";
+        return "INVALID_TYPEFLAG_LINKNAME_NON_EMPTY";
     default:
         return "UNKNOWN";
     }
