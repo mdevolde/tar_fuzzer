@@ -37,8 +37,6 @@ bool attack_end_of_file(const char *output_filename, uint8_t index) {
     // Add the end of the file
     add_tar_data_block(&archive, (const uint8_t *)end_data, end_size);
 
-    free(end_data);
-
     // Special case for the second file (if index is)
     if (index >= num_sizes / 2) {
         tar_header header2;
@@ -48,6 +46,8 @@ bool attack_end_of_file(const char *output_filename, uint8_t index) {
         add_tar_data_block(&archive, (const uint8_t *)second_content, sizeof(second_content) - 1);
         add_tar_data_block(&archive, (const uint8_t *)end_data, end_size / 2); // Different size
     }
+
+    free(end_data);
 
     write_tar_archive(&archive, output_filename);
     free_tar_archive(&archive);
