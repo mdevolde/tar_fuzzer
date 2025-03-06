@@ -25,55 +25,47 @@ bool attack_non_null_terminaison(const char *output_filename, uint8_t index) {
         break;
     case FIELD_GID:
         memset(header.gid, ' ', sizeof(header.gid));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MODE:
         memset(header.mode, ' ', sizeof(header.mode));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MTIME:
         memset(header.mtime, ' ', sizeof(header.mtime));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_UID:
         memset(header.uid, ' ', sizeof(header.uid));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_NAME:
         memset(header.name, ' ', sizeof(header.name));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_SIZE:
         memset(header.size, ' ', sizeof(header.size));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MAGIC:
         memset(header.magic, ' ', sizeof(header.magic));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_UNAME:
         memset(header.uname, ' ', sizeof(header.uname));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_GNAME:
         memset(header.gname, ' ', sizeof(header.gname));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break; 
     case FIELD_VERSION:
         memset(header.version, ' ', sizeof(header.version));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_TYPEFLAG:
         header.typeflag = ' ';
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_LINKNAME:
         memset(header.linkname, ' ', sizeof(header.linkname));
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     default:
         is_header_tested = false;
         break;
+    }
+
+    if (field != FIELD_CHKSUM) {
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
     }
     
     add_tar_header(&archive, &header);

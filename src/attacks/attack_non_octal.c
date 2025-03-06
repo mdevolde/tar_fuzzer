@@ -25,27 +25,26 @@ bool attack_non_octal(const char *output_filename, uint8_t index) {
         break;
     case FIELD_GID:
         snprintf(header.gid, sizeof(header.gid), "%07d", 9);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MODE:
         snprintf(header.mode, sizeof(header.mode), "%07d", 9);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MTIME:
         snprintf(header.mtime, sizeof(header.mtime), "%011d", 9);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_SIZE:
         snprintf(header.size, sizeof(header.size), "%011d", 9);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_UID:
         snprintf(header.uid, sizeof(header.uid), "%07d", 9);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     default:
         is_header_tested = false;
         break;
+    }
+
+    if (field != FIELD_CHKSUM) {
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
     }
 
     add_tar_header(&archive, &header);

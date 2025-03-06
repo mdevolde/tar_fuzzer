@@ -28,35 +28,30 @@ bool attack_non_numeric(const char *output_filename, uint8_t index) {
         non_numeric_string_slice = non_numeric_string;
         memset(header.gid, 0, sizeof(header.gid));
         memcpy(header.gid, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MODE:
         slice_size = sizeof(header.mode) - 1;
         non_numeric_string_slice = non_numeric_string;
         memset(header.mode, 0, sizeof(header.mode));
         memcpy(header.mode, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_MTIME:
         slice_size = sizeof(header.mtime) - 1;
         non_numeric_string_slice = non_numeric_string;
         memset(header.mtime, 0, sizeof(header.mtime));
         memcpy(header.mtime, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_SIZE:
         slice_size = sizeof(header.size) - 1;
         non_numeric_string_slice = non_numeric_string;
         memset(header.size, 0, sizeof(header.size));
         memcpy(header.size, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_UID:
         slice_size = sizeof(header.uid) - 1;
         non_numeric_string_slice = non_numeric_string;
         memset(header.uid, 0, sizeof(header.uid));
         memcpy(header.uid, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     case FIELD_CHKSUM:
         slice_size = sizeof(header.chksum) - 1;
@@ -69,11 +64,14 @@ bool attack_non_numeric(const char *output_filename, uint8_t index) {
         non_numeric_string_slice = non_numeric_string;
         memset(header.version, 0, sizeof(header.version));
         memcpy(header.version, non_numeric_string_slice, slice_size);
-        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
         break;
     default:
         is_header_tested = false;
         break;
+    }
+
+    if (field != FIELD_CHKSUM) {
+        edit_tar_header_chksum(&header, calculate_tar_checksum(&header));
     }
 
     add_tar_header(&archive, &header);
