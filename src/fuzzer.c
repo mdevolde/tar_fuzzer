@@ -174,6 +174,7 @@ int execute_fuzzer(const char *executable) {
             bool is_header_tested = attacks[i].function(tar_filename, j);
             if (!is_header_tested) {
                 skip_attack++;
+                remove(tar_filename); // No need to keep the file if the attack is not tested
             } else {
                 // Execute the command
                 uint8_t current_status = execute_command(executable, tar_filename);
