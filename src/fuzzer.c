@@ -174,18 +174,14 @@ int execute_fuzzer(const char *executable) {
             bool is_header_tested = attacks[i].function(tar_filename, j);
             if (!is_header_tested) {
                 skip_attack++;
+            } else {
+                // Execute the command
+                uint8_t current_status = execute_command(executable, tar_filename);
+                status += current_status;
+                total_crashes += current_status;
             } 
+        }
 
-            // Execute the command
-            uint8_t current_status = execute_command(executable, tar_filename);
-            status += current_status;
-            total_crashes += current_status;
-        }
-        
-        // For testing case when the attack always works even when it's a skip attack
-        if (status > number_of_attacks - skip_attack) {
-            status = number_of_attacks - skip_attack;
-        }
         total_attacks += status;
         printf("Attack %s: %d/%d crashes\n", attacks[i].name, status, number_of_attacks - skip_attack);
 
@@ -203,11 +199,6 @@ int execute_fuzzer(const char *executable) {
         }
         if (found > 0) printf("\n");
         printf("\n");
-    }
-
-    // For testing case when the total crashes is more than the total attacks because even a skip attack is counted as crash (the exec always crashes)
-    if (total_crashes > total_attacks) {
-        total_crashes = total_attacks;
     }
 
     // Clean up
