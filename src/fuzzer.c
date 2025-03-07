@@ -130,7 +130,7 @@ uint8_t list_files(char filenames[][256], uint8_t max_files) {
 
     while ((entry = readdir(dir)) != NULL && count < max_files) {
         struct stat path_stat;
-        if (stat(entry->d_name, &path_stat) == 0 && (S_ISREG(path_stat.st_mode) || S_ISDIR(path_stat.st_mode) || S_ISFIFO(path_stat.st_mode))) { 
+        if (stat(entry->d_name, &path_stat) == 0 && (S_ISREG(path_stat.st_mode) || S_ISDIR(path_stat.st_mode) || S_ISFIFO(path_stat.st_mode)||  S_ISLNK(path_stat.st_mode) || S_ISCHR(path_stat.st_mode) || S_ISBLK(path_stat.st_mode))) { 
             strncpy(filenames[count], entry->d_name, 255);
             filenames[count][255] = '\0';
             count++;
